@@ -1,0 +1,1 @@
+add_library(SebScaifeCMP7172 CubemapTexture.cpp CubemapTexture.hpp)

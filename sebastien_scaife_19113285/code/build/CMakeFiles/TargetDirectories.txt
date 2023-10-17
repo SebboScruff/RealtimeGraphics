@@ -1,0 +1,5 @@
+C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/main.dir
+C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/glhelper.dir
+C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/SebScaifeCMP7172/CMakeFiles/SebScaifeCMP7172.dir
