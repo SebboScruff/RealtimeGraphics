@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{67BDA16E-1761-30A7-B290-CAE1B2AE1D32}</ProjectGuid>
+    <ProjectGuid>{D5CC9FDE-5786-366C-B7A8-F44AF51306ED}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -59,26 +59,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glhelper.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glhelper</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">glhelper.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">glhelper</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">glhelper.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">glhelper</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">glhelper.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">glhelper</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -94,10 +94,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -110,7 +110,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -126,10 +126,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -142,7 +142,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -158,10 +158,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -174,7 +174,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -189,10 +189,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\.;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glew-2.1.0\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\SDL2-2.28.2\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\opencv-4.8.0\build\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\assimp-5.2.5\include;C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\glText;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -204,11 +204,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\CMakeLists.txt">
+    <CustomBuild Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code" "-BC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build" --check-stamp-file "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code -BC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build --check-stamp-file C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -217,11 +217,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code" "-BC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build" --check-stamp-file "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code -BC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build --check-stamp-file C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -230,11 +230,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code" "-BC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build" --check-stamp-file "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code -BC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build --check-stamp-file C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -243,11 +243,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code" "-BC:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build" --check-stamp-file "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code -BC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build --check-stamp-file C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/glhelper/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -256,38 +256,38 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Entity.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Exception.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\FlyViewer.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\GLBuffer.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Matrices.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Mesh.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Renderable.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\RotateViewer.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\ShaderProgram.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Texture.cpp" />
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Viewer.cpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Constants.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Entity.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Exception.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\FlyViewer.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\GLBuffer.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Matrices.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Mesh.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Renderable.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\RotateViewer.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\ShaderProgram.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Texture.hpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Viewer.hpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Entity.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Exception.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\FlyViewer.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\GLBuffer.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Mesh.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Renderable.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\RotateViewer.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\ShaderProgram.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Texture.cpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Viewer.cpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Constants.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Entity.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Exception.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\FlyViewer.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\GLBuffer.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Mesh.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Renderable.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\RotateViewer.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\ShaderProgram.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Texture.hpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Viewer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\build\ZERO_CHECK.vcxproj">
-      <Project>{622F14F4-D62D-3CBA-B057-00FDD2EC6F74}</Project>
+    <ProjectReference Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\ZERO_CHECK.vcxproj">
+      <Project>{D2B3243B-2A67-377B-8579-E920C0E2419C}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

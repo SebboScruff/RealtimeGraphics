@@ -18,7 +18,7 @@ events:
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
       Compiler:  
-      Build flags: /DWIN32;/D_WINDOWS;/EHsc
+      Build flags: 
       Id flags:  
       
       The output was:
@@ -26,8 +26,8 @@ events:
       Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
       Copyright (C) Microsoft Corporation. All rights reserved.
       
-      Build started 2023-10-17 09:12:14.
-      Project "C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      Build started 2023-10-17 10:43:11.
+      Project "C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
         Creating directory "Debug\\".
         Creating directory "Debug\\CompilerIdCXX.tlog\\".
@@ -38,7 +38,7 @@ events:
         CMakeCXXCompilerId.cpp
       Link:
         C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
-        CompilerIdCXX.vcxproj -> C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.exe
+        CompilerIdCXX.vcxproj -> C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.exe
       PostBuildEvent:
         for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
         :VCEnd
@@ -46,13 +46,13 @@ events:
       FinalizeBuildStatus:
         Deleting file "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
         Touching "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
-      Done Building Project "C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
+      Done Building Project "C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\3.27.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
       
       Build succeeded.
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.73
+      Time Elapsed 00:00:00.69
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -60,7 +60,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
       
       The CXX compiler identification is MSVC, found in:
-        C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/3.27.5/CompilerIdCXX/CompilerIdCXX.exe
+        C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/3.27.5/CompilerIdCXX/CompilerIdCXX.exe
       
   -
     kind: "try_compile-v1"
@@ -71,8 +71,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-swcr0e"
-      binary: "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-swcr0e"
+      source: "C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-q3zo57"
+      binary: "C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-q3zo57"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -81,39 +81,39 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-swcr0e'
+        Change Dir: 'C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-q3zo57'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_bcc55.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe" cmTC_59fea.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
         Microsoft (R) Build Engine version 16.11.2+f32259642 for .NET Framework
         Copyright (C) Microsoft Corporation. All rights reserved.
         
-        Build started 2023-10-17 09:12:15.
-        Project "C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-swcr0e\\cmTC_bcc55.vcxproj" on node 1 (default targets).
+        Build started 2023-10-17 10:43:12.
+        Project "C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-q3zo57\\cmTC_59fea.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_bcc55.dir\\Debug\\".
-          Creating directory "C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-swcr0e\\Debug\\".
-          Creating directory "cmTC_bcc55.dir\\Debug\\cmTC_bcc55.tlog\\".
+          Creating directory "cmTC_59fea.dir\\Debug\\".
+          Creating directory "C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-q3zo57\\Debug\\".
+          Creating directory "cmTC_59fea.dir\\Debug\\cmTC_59fea.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_bcc55.dir\\Debug\\cmTC_bcc55.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Creating "cmTC_59fea.dir\\Debug\\cmTC_59fea.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_bcc55.dir\\Debug\\\\" /Fd"cmTC_bcc55.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_59fea.dir\\Debug\\\\" /Fd"cmTC_59fea.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30146 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
           CMakeCXXCompilerABI.cpp
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_bcc55.dir\\Debug\\\\" /Fd"cmTC_bcc55.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_59fea.dir\\Debug\\\\" /Fd"cmTC_59fea.dir\\Debug\\vc142.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.27\\Modules\\CMakeCXXCompilerABI.cpp"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-swcr0e\\Debug\\cmTC_bcc55.exe" /INCREMENTAL /ILK:"cmTC_bcc55.dir\\Debug\\cmTC_bcc55.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-swcr0e/Debug/cmTC_bcc55.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-swcr0e/Debug/cmTC_bcc55.lib" /MACHINE:X64  /machine:x64 cmTC_bcc55.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_bcc55.vcxproj -> C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-swcr0e\\Debug\\cmTC_bcc55.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-q3zo57\\Debug\\cmTC_59fea.exe" /INCREMENTAL /ILK:"cmTC_59fea.dir\\Debug\\cmTC_59fea.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-q3zo57/Debug/cmTC_59fea.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/CMakeScratch/TryCompile-q3zo57/Debug/cmTC_59fea.lib" /MACHINE:X64  /machine:x64 cmTC_59fea.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_59fea.vcxproj -> C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-q3zo57\\Debug\\cmTC_59fea.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_bcc55.dir\\Debug\\cmTC_bcc55.tlog\\unsuccessfulbuild".
-          Touching "cmTC_bcc55.dir\\Debug\\cmTC_bcc55.tlog\\cmTC_bcc55.lastbuildstate".
-        Done Building Project "C:\\Users\\sebsc\\Documents\\Uni Year 4\\RT-Graphics\\.CourseworkProject\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-swcr0e\\cmTC_bcc55.vcxproj" (default targets).
+          Deleting file "cmTC_59fea.dir\\Debug\\cmTC_59fea.tlog\\unsuccessfulbuild".
+          Touching "cmTC_59fea.dir\\Debug\\cmTC_59fea.tlog\\cmTC_59fea.lastbuildstate".
+        Done Building Project "C:\\Users\\sebsc\\Documents\\UniY4\\RT-Graphics\\Coursework\\RealtimeGraphics\\sebastien_scaife_19113285\\code\\build\\CMakeFiles\\CMakeScratch\\TryCompile-q3zo57\\cmTC_59fea.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.50
+        Time Elapsed 00:00:00.51
         
       exitCode: 0
 ...

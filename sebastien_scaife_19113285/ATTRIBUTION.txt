@@ -20,9 +20,11 @@ bin/Assets/models
 	> shield.obj - Samcro spm on Turbosquid; https://www.turbosquid.com/3d-models/3d-sword-shield-ready-model-1706509
 	> logSeat.obj - Realistic 3D Scan on Turbosquid; https://www.turbosquid.com/3d-models/wooden-log-8k-3d-1952830
 	> Rocks - Werniech on Turbosquid; https://www.turbosquid.com/3d-models/short-flat-rocks-rough-1-3d-model-1980828
+	> campfireBase - Zelad on Turbosquid; https://www.turbosquid.com/3d-models/3d-campfire-camp-1683828
 
 bin.Assets/textures
 	> Sword - Samcro spm on Turbosquid; https://www.turbosquid.com/3d-models/3d-sword-shield-ready-model-1706509
 	> Shield - Samcro spm on Turbosquid; https://www.turbosquid.com/3d-models/3d-sword-shield-ready-model-1706509
 	> Log Seat - Realistic 3D Scan on Turbosquid; https://www.turbosquid.com/3d-models/wooden-log-8k-3d-1952830
 	> Rocks - Werniech on Turbosquid; https://www.turbosquid.com/3d-models/short-flat-rocks-rough-1-3d-model-1980828
+	> Campfire Zelad on Turbosquid; https://www.turbosquid.com/3d-models/3d-campfire-camp-1683828

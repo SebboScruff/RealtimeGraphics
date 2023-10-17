@@ -1,87 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Entity.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Exception.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\FlyViewer.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\FlyViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\GLBuffer.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\GLBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Matrices.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Mesh.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Renderable.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\RotateViewer.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\RotateViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\ShaderProgram.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Texture.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Viewer.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Viewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Constants.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Constants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Entity.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Entity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Exception.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Exception.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\FlyViewer.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\FlyViewer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\GLBuffer.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\GLBuffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Matrices.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Mesh.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Renderable.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Renderable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\RotateViewer.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\RotateViewer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\ShaderProgram.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\ShaderProgram.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Texture.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\Viewer.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Viewer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\glhelper\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{FD2F0CD9-D9AC-3C0F-84D1-990F7D7AA04D}</UniqueIdentifier>
+      <UniqueIdentifier>{753CAD8C-FB9C-36E9-AD3C-4A14568EAB0F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{10283186-0424-333F-8E91-C10B011BF875}</UniqueIdentifier>
+      <UniqueIdentifier>{E6F913B1-F307-3BD9-877C-A8263B76A9A9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

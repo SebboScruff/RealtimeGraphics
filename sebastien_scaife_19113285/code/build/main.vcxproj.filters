@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\main.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\sebsc\Documents\Uni Year 4\RT-Graphics\.CourseworkProject\sebastien_scaife_19113285\code\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{10283186-0424-333F-8E91-C10B011BF875}</UniqueIdentifier>
+      <UniqueIdentifier>{E6F913B1-F307-3BD9-877C-A8263B76A9A9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

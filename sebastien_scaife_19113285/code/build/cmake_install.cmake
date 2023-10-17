@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code
+# Install script for directory: C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/GlobalIllumination")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/SebScaifeCourseworkProject")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,12 +34,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/glhelper/cmake_install.cmake")
+  include("C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/glhelper/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/SebScaifeCMP7172/cmake_install.cmake")
+  include("C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/SebScaifeCMP7172/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/sebsc/Documents/Uni Year 4/RT-Graphics/.CourseworkProject/sebastien_scaife_19113285/code/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
