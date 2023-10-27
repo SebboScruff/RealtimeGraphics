@@ -40,12 +40,7 @@ set(LIBRARIES
 )
 function(add_executable_rtg name)
     set(SHADER_LIST)
-    if(${ARGC} GREATER 1)
-        list(SUBLIST ARGV 1 -1 EXTRA_ARGS)
-        foreach(ARG ${EXTRA_ARGS})
-            list(APPEND SHADER_LIST ${PROJECT_SOURCE_DIR}/shaders/${ARG})
-        endforeach()
-    endif()
+    file(GLOB SHADER_LIST shaders/*.vert shaders/*.frag)
 
 
     add_executable(${name}
@@ -62,4 +57,4 @@ function(add_executable_rtg name)
     set_target_properties(${name} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${SDL_DLL_DIR};${SDL_TTF_DLL_DIR};${OpenCV_DLL_DIR};${GLEW_DLL_DIR};${Assimp_DLL_DIR};%PATH%")
 endfunction()
 
-add_executable_rtg(main)
+add_executable_rtg(main) 

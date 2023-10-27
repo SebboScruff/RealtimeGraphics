@@ -1,1 +1,9 @@
 ﻿  1>Checking Build System
+  CMake is re-running because C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/generate.stamp is out-of-date.
+    the file 'C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/CMakeLists.txt'
+    is newer than 'C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  -- Selecting Windows SDK version 10.0.16299.0 to target Windows 10.0.22621.
+  -- Configuring done (0.2s)
+  -- Generating done (0.3s)
+  -- Build files have been written to: C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build

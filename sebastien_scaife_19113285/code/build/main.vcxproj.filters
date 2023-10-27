@@ -9,6 +9,29 @@
     <CustomBuild Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\BlinnPhong.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\BlinnPhong.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FixedColor.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FixedColor.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Lambert.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Lambert.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{10120AF3-72D3-3852-AE9C-E31691120C70}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{E6F913B1-F307-3BD9-877C-A8263B76A9A9}</UniqueIdentifier>
     </Filter>
