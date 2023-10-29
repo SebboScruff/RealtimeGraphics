@@ -108,6 +108,7 @@ int main()
 	{
 		// TODO Define remaining Shader Programs
 		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag"}); // mainly for checking that meshes are loaded correctly, delete this eventually
+		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" });
 		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // mainly rfor checking that textures are loaded correctly
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // TODO this needs a few fixes, eventually apply to Sword & Shield models
 
@@ -115,10 +116,14 @@ int main()
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
 
 		// Define all necessary meshes
+		glhelper::Mesh lightSphere;
 		glhelper::Mesh swordMesh, shieldMesh, logSeatMesh1, logSeatMesh2, campfireBaseMesh;
 
 		// -- Translation Matrix Set-up -- \\
 		// TODO finalise mesh transformation matrices
+		// Light Sphere
+		Eigen::Matrix4f lightSphereM2W = makeTranslationMatrix(lightPosition);
+
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
 		swordModelToWorld = makeTranslationMatrix(Eigen::Vector3f(0.f, 0.f, 0.f));
@@ -139,6 +144,11 @@ int main()
 		// -- End of Translation Matrix Set-up -- \\
 
 		// -- Model Loading -- \\
+		// Light Sphere
+		loadMesh(&lightSphere, assetsDirectory + "models/sphere.obj");
+		lightSphere.modelToWorld(lightSphereM2W);
+		lightSphere.shaderProgram(&lightSphereShader);
+
 		// Sword
 		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
 		swordMesh.modelToWorld(swordModelToWorld);
@@ -168,6 +178,7 @@ int main()
 		// -- Shader Uniform Setup -- \\ 
 		// TODO Set remaining shader Uniforms
 		glProgramUniform4f(defaultBlueShader.get(), defaultBlueShader.uniformLoc("color"), 0.f, 1.f, 1.f, 1.f);  // sets the Fixed Color shader to simply render everything a nice turquoise by default
+		glProgramUniform4f(lightSphereShader.get(), lightSphereShader.uniformLoc("color"), 1.f, 1.f, 1.f, 1.f); // just set the light to be plain white
 
 		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
 
@@ -258,6 +269,8 @@ int main()
 			glDisable(GL_CULL_FACE);
 			
 			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
+
+			lightSphere.render();
 			
 			// TODO Remaining texture binds to correct image units, to set up Shader Uniforms in the correct way
 			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
