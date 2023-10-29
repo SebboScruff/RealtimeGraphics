@@ -13,19 +13,13 @@ in vec2 texCoord;
 
 out vec4 colorOut;
 
-uniform vec4 albedo;
-
-uniform vec3 lightPosWorld;
-uniform float lightIntensity;
+uniform sampler2D albedo;	// diffuse map from texture file 
 
 void main()
 {
-	float lightDistance = length(lightPosWorld - fragPosWorld);
+	vec4 albedoSample = texture(albedo, texCoord);
 
-	colorOut = albedo;
-
-	// Adjust for lighting variables
-	colorOut *= lightIntensity;
-	colorOut /= (lightDistance * lightDistance);
+	// Render out with value from albedo texture
+	colorOut = albedoSample;
 }
 

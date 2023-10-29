@@ -28,7 +28,7 @@ const std::string assetsDirectory = "../../bin/Assets/";
 
 // Main lighting settings here:
 float lightTheta = 0.0f;
-Eigen::Vector3f lightPosition(5.f * sinf(lightTheta), 5.f, 5.f*cosf(lightTheta));
+Eigen::Vector3f lightPosition(0.f, 10.f, 0.f);
 float lightIntensity = 60.f;
 // Lighting directions etc. are done locally to each face in shaders where appropriate
 
@@ -64,6 +64,18 @@ void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 	mesh->tex(uvs);
 }
 
+// This is being kept here for now, TODO eventually extract this out into its own class
+void SetUpTexture(cv::Mat _textureSource, GLuint _texture)
+{
+	glBindTexture(GL_TEXTURE_2D, _texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8,
+		_textureSource.cols, _textureSource.rows,
+		0, GL_RGB, GL_UNSIGNED_BYTE, _textureSource.data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glGenerateTextureMipmap(_texture);
+}
+
 int main()
 {
 	// INITIALISATIONS
@@ -95,44 +107,118 @@ int main()
 	// Everything runtime-related in here:
 	{
 		// TODO Define remaining Shader Programs
-		glhelper::ShaderProgram fixedColorShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag"});
-		//glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" });
+		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag"}); // mainly for checking that meshes are loaded correctly, delete this eventually
+		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // mainly rfor checking that textures are loaded correctly
+		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // TODO this needs a few fixes, eventually apply to Sword & Shield models
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
 
-		// TODO Define the rest of the meshes
-		glhelper::Mesh swordMesh;
+		// Define all necessary meshes
+		glhelper::Mesh swordMesh, shieldMesh, logSeatMesh1, logSeatMesh2, campfireBaseMesh;
 
-		// TODO Set up mesh translation matrices
+		// -- Translation Matrix Set-up -- \\
+		// TODO finalise mesh transformation matrices
+		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
 		swordModelToWorld = makeTranslationMatrix(Eigen::Vector3f(0.f, 0.f, 0.f));
 
-		// TODO Load in remaining meshes from file extensions, apply shaders & transformations
+		// Shield
+		Eigen::Matrix4f shieldModelToWorld = Eigen::Matrix4f::Identity();
+		shieldModelToWorld = makeTranslationMatrix(Eigen::Vector3f(1.f, 0.f, 0.f));
+
+		// Campfire Base
+		Eigen::Matrix4f campfireModelToWorld = Eigen::Matrix4f::Identity();
+		campfireModelToWorld = makeTranslationMatrix(Eigen::Vector3f(2.f, 0.f, 0.f));
+
+		// Seats
+		Eigen::Matrix4f seat1ModelToWorld = Eigen::Matrix4f::Identity();
+		seat1ModelToWorld = makeTranslationMatrix(Eigen::Vector3f(-1.f, 0.f, 0.f));
+		Eigen::Matrix4f seat2ModelToWorld = Eigen::Matrix4f::Identity();
+		seat2ModelToWorld = makeTranslationMatrix(Eigen::Vector3f(-2.f, 0.f, 0.f));
+		// -- End of Translation Matrix Set-up -- \\
+
+		// -- Model Loading -- \\
+		// Sword
 		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
 		swordMesh.modelToWorld(swordModelToWorld);
-		swordMesh.shaderProgram(&fixedColorShader);
+		swordMesh.shaderProgram(&lambertShader);
 
+		// Shield
+		loadMesh(&shieldMesh, assetsDirectory + "models/Shield.obj");
+		shieldMesh.modelToWorld(shieldModelToWorld);
+		shieldMesh.shaderProgram(&lambertShader);
+
+		// Seats
+		loadMesh(&logSeatMesh1, assetsDirectory + "models/logSeat.obj");
+		logSeatMesh1.modelToWorld(seat1ModelToWorld);
+		logSeatMesh1.shaderProgram(&lambertShader);
+
+		loadMesh(&logSeatMesh2, assetsDirectory + "models/logSeat.obj");
+		logSeatMesh2.modelToWorld(seat2ModelToWorld);
+		logSeatMesh2.shaderProgram(&lambertShader);
+
+		// Campfire Base
+		loadMesh(&campfireBaseMesh, assetsDirectory + "models/campfireBase.obj");
+		campfireBaseMesh.modelToWorld(campfireModelToWorld);
+		campfireBaseMesh.shaderProgram(&lambertShader);
+
+		// -- End of Model Loading -- \\
+
+		// -- Shader Uniform Setup -- \\ 
 		// TODO Set remaining shader Uniforms
-		glProgramUniform4f(fixedColorShader.get(), fixedColorShader.uniformLoc("color"), 0.f, 1.f, 1.f, 1.f);  // sets the Fixed Color shader to simply render everything a nice turquoise by default
+		glProgramUniform4f(defaultBlueShader.get(), defaultBlueShader.uniformLoc("color"), 0.f, 1.f, 1.f, 1.f);  // sets the Fixed Color shader to simply render everything a nice turquoise by default
 
-		// TODO Define and create remaining textures, normalmaps, mipmaps etc for all the models
-		/*cv::Mat swordTextureImage = cv::imread(assetsDirectory + "textures/Sword/swordAlbedo.png");
-		cv::cvtColor(swordTextureImage, swordTextureImage, cv::COLOR_BGR2RGB);
-		glhelper::Texture swordTexture(
-			GL_TEXTURE_2D, GL_RGB8,
-			swordTextureImage.cols, swordTextureImage.rows,
-			0, GL_RGB, GL_UNSIGNED_BYTE, swordTextureImage.data,
-			GL_LINEAR_MIPMAP_LINEAR,
-			GL_LINEAR);
-		swordTexture.genMipmap();*/
+		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
+
+		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0);
+		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1);
+		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), 60.f); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
+		glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
+		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
+
+		// -- End of Shader Uniform Setup -- \\
+
+		// -- Texture Setup -- \\ 
+		// TODO Define and create remaining normal maps, speculars, mipmaps etc for all the models
+
+		// Sword Texture Setup
+		cv::Mat swordAlbedoSource = cv::imread(assetsDirectory + "textures/Sword/swordAlbedo.png");
+		cv::cvtColor(swordAlbedoSource, swordAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint swordAlbedo;
+		glGenTextures(1, &swordAlbedo);
+		SetUpTexture(swordAlbedoSource, swordAlbedo);
+
+		// Shield Texture Setup
+		cv::Mat shieldAlbedoSource = cv::imread(assetsDirectory + "textures/Shield/shieldAlbedo.png");
+		cv::cvtColor(shieldAlbedoSource, shieldAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint shieldAlbedo;
+		glGenTextures(1, &shieldAlbedo);
+		SetUpTexture(shieldAlbedoSource, shieldAlbedo);
+
+		// Log Seat Texture Setup
+		cv::Mat logAlbedoSource = cv::imread(assetsDirectory + "textures/LogSeat/logAlbedo.jpg");
+		cv::cvtColor(logAlbedoSource, logAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint logAlbedo;
+		glGenTextures(1, &logAlbedo);
+		SetUpTexture(logAlbedoSource, logAlbedo);
+
+		// Campfire Texture Setup
+		cv::Mat campfireAlbedoSource = cv::imread(assetsDirectory + "textures/Campfire/campfireBaseAlbedo.jpg");
+		cv::cvtColor(campfireAlbedoSource, campfireAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint campfireAlbedo;
+		glGenTextures(1, &campfireAlbedo);
+		SetUpTexture(campfireAlbedoSource, campfireAlbedo);
+
+		// -- End of Texture Setup -- \\
 
 		// Enable any GL functions here:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// Input and controls
+		// -- Input and controls -- \\
+
 		bool shouldQuit = false;
 		SDL_Event event;
 
@@ -165,22 +251,45 @@ int main()
 					}
 				}
 			}
-			// End of Input and Controls
+			// -- End of Input and Controls -- \\ 
 			glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// Rendering and Draw Calls here!
 			glDisable(GL_CULL_FACE);
 			
-			//TODO Texture Binding
-			//swordTexture.bindToImageUnit(0);
+			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
+			
+			// TODO Remaining texture binds to correct image units, to set up Shader Uniforms in the correct way
+			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
+			// This might also be extracted out into a separate function e.g. BindTexsAndRender()
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, swordAlbedo);
+
 			swordMesh.render();
+
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, shieldAlbedo);
+
+			shieldMesh.render();
+
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, logAlbedo);
+
+			logSeatMesh1.render();
+			logSeatMesh2.render();
+
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, campfireAlbedo);
+
+			campfireBaseMesh.render();
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
 			// gltColor(1.f, 1.f, 1.f, 1.f);
 			// gltDrawText2D(text, 10.f, 10.f, 1.f);
 			// gltEndDraw();
+
+			// -- End of Texture Binding, Rendering and Draw Calls -- \\
 
 			SDL_GL_SwapWindow(window);
 
