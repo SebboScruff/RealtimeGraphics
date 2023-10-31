@@ -5,7 +5,7 @@ External/ 3rd Party Attributions for this project:
 code/glhelper:
 	> A variety of starter functions for defining Meshes, Textures, Cameras, etc. Essentially a groundwork for the most fundamental aspects of the application
 	> Made by David Walton as part of the course & labs material
-	
+	> Any additions to these classes are outlines with 'Seb Additions' in comments
 
 ----------------------
 bin/3rdParty

@@ -17,14 +17,19 @@
 #include <opencv2/opencv.hpp>
 #define GLT_IMPLEMENTATION
 #include <gltext.h>
+#include <fstream>
+#include <iostream>
 
 
 // Global scope variables here, like Window Size and hardset framerate
 const int windowWidth = 800, windowHeight = 600;
 
 const Uint64 desiredFrameTime = 30;
+int frameCounter = 0;
+int renderIteration = 1;
 
 const std::string assetsDirectory = "../../bin/Assets/";
+const std::string queryOutDirectory = "../../bin/Profiling/";
 
 // Main lighting settings here:
 float lightTheta = 0.0f;
@@ -62,6 +67,12 @@ void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 	mesh->norm(norms);
 	mesh->elems(elems);
 	mesh->tex(uvs);
+}
+
+void WriteTimeQuery(float _timeMilli, std::string _queriedObjName, std::ofstream& _file)
+{
+	std::string timeMSStr = std::to_string(_timeMilli);
+	_file << "Time taken for " << _queriedObjName << ", " << timeMSStr << "ms \n";
 }
 
 // This is being kept here for now, TODO eventually extract this out into its own class
@@ -106,8 +117,10 @@ int main()
 
 	// Everything runtime-related in here:
 	{
+		// Profiling and Querying Set Up implemented into glhelper::Renderable.hpp and glhelper::Renderable.cpp
+
 		// TODO Define remaining Shader Programs
-		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag"}); // mainly for checking that meshes are loaded correctly, delete this eventually
+		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // mainly for checking that meshes are loaded correctly, delete this eventually
 		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" });
 		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // mainly rfor checking that textures are loaded correctly
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // TODO this needs a few fixes, eventually apply to Sword & Shield models
@@ -116,8 +129,11 @@ int main()
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
 
 		// Define all necessary meshes
-		glhelper::Mesh lightSphere;
-		glhelper::Mesh swordMesh, shieldMesh, logSeatMesh1, logSeatMesh2, campfireBaseMesh;
+		std::vector<glhelper::Renderable*> renderables;
+		glhelper::Mesh lightSphere("light");
+		glhelper::Mesh swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
+
+		renderables = { &lightSphere, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
 
 		// -- Translation Matrix Set-up -- \\
 		// TODO finalise mesh transformation matrices
@@ -142,6 +158,7 @@ int main()
 		Eigen::Matrix4f seat2ModelToWorld = Eigen::Matrix4f::Identity();
 		seat2ModelToWorld = makeTranslationMatrix(Eigen::Vector3f(-2.f, 0.f, 0.f));
 		// -- End of Translation Matrix Set-up -- \\
+
 
 		// -- Model Loading -- \\
 		// Light Sphere
@@ -233,6 +250,8 @@ int main()
 		bool shouldQuit = false;
 		SDL_Event event;
 
+		std::ofstream profilerOut(queryOutDirectory + "profiling.csv");
+
 		while (!shouldQuit) {
 			Uint64 frameStartTime = SDL_GetTicks64(); // for capping framerate to the previously defined maximum
 
@@ -267,34 +286,35 @@ int main()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glDisable(GL_CULL_FACE);
-			
+
 			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
 
-			lightSphere.render();
-			
+			lightSphere.renderWithQuery();
+
 			// TODO Remaining texture binds to correct image units, to set up Shader Uniforms in the correct way
 			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
 			// This might also be extracted out into a separate function e.g. BindTexsAndRender()
+
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, swordAlbedo);
 
-			swordMesh.render();
+			swordMesh.renderWithQuery();
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, shieldAlbedo);
 
-			shieldMesh.render();
+			shieldMesh.renderWithQuery();
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, logAlbedo);
 
-			logSeatMesh1.render();
-			logSeatMesh2.render();
+			logSeatMesh1.renderWithQuery();
+			logSeatMesh2.renderWithQuery();
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, campfireAlbedo);
 
-			campfireBaseMesh.render();
+			campfireBaseMesh.renderWithQuery();
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
@@ -310,11 +330,36 @@ int main()
 			if (elapsedFrameTime < desiredFrameTime) {
 				SDL_Delay(desiredFrameTime - elapsedFrameTime);
 			}
-		}
 
+			if (++frameCounter >= 30) {
+
+				// write to csv
+				profilerOut << "Render Iteration, " << renderIteration << "\n";
+				for (glhelper::Renderable* r : renderables) {
+					WriteTimeQuery(r->getRenderTime(), r->name, profilerOut);
+				}
+
+				frameCounter = 0;
+				renderIteration++;
+				//SDL_SetWindowTitle(window, "Render Iteration: " + (char)renderIteration);
+			}
+		}
+		// Clean up
+
+		glDeleteTextures(1, &swordAlbedo);
+		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
+
+		glDeleteTextures(1, &shieldAlbedo);
+		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
+
+		glDeleteTextures(1, &logAlbedo);
+		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. NORMAL
+
+		glDeleteTextures(1, &campfireAlbedo);
+		// TODO DELETE ANY OTHER CAMPFIRE TEXTURES E.G. PARTICLES
 	}
 
-	// Clean-Up
+
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

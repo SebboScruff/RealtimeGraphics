@@ -10,7 +10,7 @@ namespace glhelper {
 class Mesh : public Renderable
 {
 public:
-	Mesh(const Eigen::Matrix4f &modelToWorld = Eigen::Matrix4f::Identity());
+	Mesh(std::string name, const Eigen::Matrix4f &modelToWorld = Eigen::Matrix4f::Identity());
 	~Mesh() throw();
 
 	void vert (const std::vector<Eigen::Vector3f> &verts, GLenum usage = GL_STATIC_DRAW);

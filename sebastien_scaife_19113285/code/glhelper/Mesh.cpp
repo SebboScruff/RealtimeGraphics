@@ -4,8 +4,7 @@
 
 namespace glhelper {
 
-Mesh::Mesh(const Eigen::Matrix4f &modelToWorld)
-    :Renderable(modelToWorld),
+Mesh::Mesh(std::string name, const Eigen::Matrix4f &modelToWorld) : Renderable(name, modelToWorld),
     shaderProgram_(nullptr),
     nElems_(0), nVerts_(0),
 	drawMode_(GL_TRIANGLES)
