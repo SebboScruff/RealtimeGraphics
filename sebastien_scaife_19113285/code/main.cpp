@@ -75,6 +75,12 @@ void WriteTimeQuery(float _timeMilli, std::string _queriedObjName, std::ofstream
 	_file << "Time taken for " << _queriedObjName << ", " << timeMSStr << "ms \n";
 }
 
+float DegToRad(float _deg)
+{
+	float rad = _deg * (M_PI / 180);
+	return rad;
+}
+
 // This is being kept here for now, TODO eventually extract this out into its own class
 void SetUpTexture(cv::Mat _textureSource, GLuint _texture)
 {
@@ -129,7 +135,7 @@ int main()
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
 
 		// Define all necessary meshes
-		std::vector<glhelper::Renderable*> renderables;
+		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so that it is easy to write out Render Queries en masse
 		glhelper::Mesh lightSphere("light");
 		glhelper::Mesh swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
 
@@ -142,7 +148,8 @@ int main()
 
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
-		swordModelToWorld = makeTranslationMatrix(Eigen::Vector3f(0.f, 0.f, 0.f));
+		//swordModelToWorld += makeRotationMatrix(Eigen::Vector3f(180.f, 67.5f, 151.f));
+		swordModelToWorld += makeTranslationMatrix(Eigen::Vector3f(-1.4f, 2.4f, 0.2f));
 
 		// Shield
 		Eigen::Matrix4f shieldModelToWorld = Eigen::Matrix4f::Identity();

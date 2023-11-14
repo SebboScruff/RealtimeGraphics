@@ -258,7 +258,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.cpp" />
+    <ClCompile Include="NoiseMap.cpp" />
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.hpp" />
+    <ClInclude Include="NoiseMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\ZERO_CHECK.vcxproj">
