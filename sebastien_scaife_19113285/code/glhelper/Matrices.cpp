@@ -34,21 +34,16 @@ Eigen::Matrix4f makeScaleMatrix(float scale)
 Eigen::Matrix4f makeRotationMatrix(const Eigen::Vector3f& _eulerAngles)
 {
 	float xRot = _eulerAngles.x(), yRot = _eulerAngles.y(), zRot = _eulerAngles.z();
-	Eigen::Matrix4f rotMat = Eigen::Vector3f::Identity();
+	Eigen::Matrix4f rotMat = Eigen::Matrix4f::Identity();
 
-	//Eigen::Matrix3f r;
-	//r = Eigen::AngleAxisf(zRot, Eigen::Vector3f::UnitZ())
-	//	* Eigen::AngleAxisf(yRot, Eigen::Vector3f::UnitY())
-	//	* Eigen::AngleAxisf(xRot, Eigen::Vector3f::UnitX());
-	//
-	//for (int x = 0; x < 3; ++x) {
-	//	for (int y = 0; y < 3; ++y) {
-	//		float val = r(x, y);
-	//		rotMat(x, y) = val;
-	//	}
-	//}
+	Eigen::Matrix3f r;
+	r = Eigen::AngleAxisf(zRot, Eigen::Vector3f::UnitZ()).matrix()
+		* Eigen::AngleAxisf(yRot, Eigen::Vector3f::UnitY()).matrix()
+		* Eigen::AngleAxisf(xRot, Eigen::Vector3f::UnitX()).matrix();
+	
+	rotMat.block<3, 3>(0, 0) = r;
 
-	rotMat(3, 3) = 1.0f;
+	//rotMat(3, 3) = 1.0f;
 	return rotMat;
 }
 // End of Seb Addition

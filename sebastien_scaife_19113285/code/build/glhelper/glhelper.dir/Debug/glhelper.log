@@ -1,40 +1,5 @@
-﻿  Matrices.cpp
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/AssignEvaluator.h(887,3): error C2338: YOU_MIXED_MATRICES_OF_DIFFERENT_SIZES
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/PlainObjectBase.h(797): message : see reference to function template instantiation 'void Eigen::internal::call_assignment_no_alias<Derived,Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>,Eigen::internal::assign_op<float,float>>(Dst &,const Src &,const Func &)' being compiled
-          with
-          [
-              Derived=Eigen::Matrix<float,4,4,0,4,4>,
-              Dst=Eigen::Matrix<float,4,4,0,4,4>,
-              Src=Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>,
-              Func=Eigen::internal::assign_op<float,float>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/PlainObjectBase.h(594): message : see reference to function template instantiation 'Derived &Eigen::PlainObjectBase<Derived>::_set_noalias<Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>>(const Eigen::DenseBase<Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>> &)' being compiled
-          with
-          [
-              Derived=Eigen::Matrix<float,4,4,0,4,4>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/PlainObjectBase.h(594): message : see reference to function template instantiation 'Derived &Eigen::PlainObjectBase<Derived>::_set_noalias<Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>>(const Eigen::DenseBase<Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>> &)' being compiled
-          with
-          [
-              Derived=Eigen::Matrix<float,4,4,0,4,4>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/Matrix.h(424): message : see reference to function template instantiation 'Eigen::PlainObjectBase<Eigen::Matrix<float,4,4,0,4,4>>::PlainObjectBase<Derived>(const Eigen::DenseBase<Derived> &)' being compiled
-          with
-          [
-              Derived=Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\bin\3rdParty\eigen-3.4.0\Eigen\src/Core/Matrix.h(423): message : see reference to function template instantiation 'Eigen::PlainObjectBase<Eigen::Matrix<float,4,4,0,4,4>>::PlainObjectBase<Derived>(const Eigen::DenseBase<Derived> &)' being compiled
-          with
-          [
-              Derived=Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.cpp(37): message : see reference to function template instantiation 'Eigen::Matrix<float,4,4,0,4,4>::Matrix<Derived>(const Eigen::EigenBase<Derived> &)' being compiled
-          with
-          [
-              Derived=Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>
-          ]
-C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\glhelper\Matrices.cpp(37): message : see reference to function template instantiation 'Eigen::Matrix<float,4,4,0,4,4>::Matrix<Derived>(const Eigen::EigenBase<Derived> &)' being compiled
-          with
-          [
-              Derived=Eigen::CwiseNullaryOp<Eigen::internal::scalar_identity_op<float>,Eigen::Matrix<float,3,1,0,3,1>>
-          ]
+﻿  FlyViewer.cpp
+  Matrices.cpp
+  RotateViewer.cpp
+  Generating Code...
+  glhelper.vcxproj -> C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\Debug\glhelper.lib

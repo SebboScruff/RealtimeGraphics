@@ -139,6 +139,7 @@ int main()
 		glhelper::Mesh lightSphere("light");
 		glhelper::Mesh swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
 
+		// for writing GL Queries
 		renderables = { &lightSphere, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
 
 		// -- Translation Matrix Set-up -- \\
@@ -148,7 +149,7 @@ int main()
 
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
-		//swordModelToWorld += makeRotationMatrix(Eigen::Vector3f(180.f, 67.5f, 151.f));
+		swordModelToWorld += makeRotationMatrix(Eigen::Vector3f(DegToRad(180.f), DegToRad(67.5f), DegToRad(151.f)));
 		swordModelToWorld += makeTranslationMatrix(Eigen::Vector3f(-1.4f, 2.4f, 0.2f));
 
 		// Shield
