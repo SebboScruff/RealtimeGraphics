@@ -30,6 +30,9 @@
 *.out
 *.app
 
+# RenderDoc Captures
+*.rdc
+
 3rdParty/
 
 .vs/

@@ -15,6 +15,7 @@
 #include "assimp/mesh.h"
 #include "assimp/scene.h"
 #include <opencv2/opencv.hpp>
+#include <SebScaifeCMP7172/NoiseMap.h>
 #define GLT_IMPLEMENTATION
 #include <gltext.h>
 #include <fstream>
@@ -39,6 +40,8 @@ float lightIntensity = 60.f;
 
 // This will eventually control which rendering style is being used: photorealism, or watercolor-style artistic shading, or some other type if I get round to it
 int currentRenderMode = 0;
+
+NoiseMap noiseMapMaster;
 
 void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 {
@@ -137,34 +140,34 @@ int main()
 		// Define all necessary meshes
 		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so that it is easy to write out Render Queries en masse
 		glhelper::Mesh lightSphere("light");
-		glhelper::Mesh swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
+		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
 
 		// for writing GL Queries
-		renderables = { &lightSphere, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
+		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
 
 		// -- Translation Matrix Set-up -- \\
 		// TODO finalise mesh transformation matrices
 		// Light Sphere
 		Eigen::Matrix4f lightSphereM2W = makeTranslationMatrix(lightPosition);
 
+		// Floor
+		Eigen::Matrix4f floorModelToWorld = Eigen::Matrix4f::Identity();
+
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
-		swordModelToWorld += makeRotationMatrix(Eigen::Vector3f(DegToRad(180.f), DegToRad(67.5f), DegToRad(151.f)));
-		swordModelToWorld += makeTranslationMatrix(Eigen::Vector3f(-1.4f, 2.4f, 0.2f));
 
 		// Shield
 		Eigen::Matrix4f shieldModelToWorld = Eigen::Matrix4f::Identity();
-		shieldModelToWorld = makeTranslationMatrix(Eigen::Vector3f(1.f, 0.f, 0.f));
 
 		// Campfire Base
 		Eigen::Matrix4f campfireModelToWorld = Eigen::Matrix4f::Identity();
-		campfireModelToWorld = makeTranslationMatrix(Eigen::Vector3f(2.f, 0.f, 0.f));
+		campfireModelToWorld *= makeScaleMatrix(0.6f);
+		campfireModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(0.f, -0.15f, 0.f));
 
 		// Seats
 		Eigen::Matrix4f seat1ModelToWorld = Eigen::Matrix4f::Identity();
-		seat1ModelToWorld = makeTranslationMatrix(Eigen::Vector3f(-1.f, 0.f, 0.f));
+
 		Eigen::Matrix4f seat2ModelToWorld = Eigen::Matrix4f::Identity();
-		seat2ModelToWorld = makeTranslationMatrix(Eigen::Vector3f(-2.f, 0.f, 0.f));
 		// -- End of Translation Matrix Set-up -- \\
 
 
@@ -174,27 +177,32 @@ int main()
 		lightSphere.modelToWorld(lightSphereM2W);
 		lightSphere.shaderProgram(&lightSphereShader);
 
+		// Floor
+		loadMesh(&floorMesh, assetsDirectory + "models/fromBlend/floor.obj");
+		floorMesh.modelToWorld(floorModelToWorld);
+		floorMesh.shaderProgram(&lambertShader);
+
 		// Sword
 		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
 		swordMesh.modelToWorld(swordModelToWorld);
 		swordMesh.shaderProgram(&lambertShader);
 
 		// Shield
-		loadMesh(&shieldMesh, assetsDirectory + "models/Shield.obj");
+		loadMesh(&shieldMesh, assetsDirectory + "models/shield.obj");
 		shieldMesh.modelToWorld(shieldModelToWorld);
 		shieldMesh.shaderProgram(&lambertShader);
 
 		// Seats
-		loadMesh(&logSeatMesh1, assetsDirectory + "models/logSeat.obj");
+		loadMesh(&logSeatMesh1, assetsDirectory + "models/fromBlend/logSeat1.obj");
 		logSeatMesh1.modelToWorld(seat1ModelToWorld);
 		logSeatMesh1.shaderProgram(&lambertShader);
 
-		loadMesh(&logSeatMesh2, assetsDirectory + "models/logSeat.obj");
+		loadMesh(&logSeatMesh2, assetsDirectory + "models/fromBlend/logSeat2.obj");
 		logSeatMesh2.modelToWorld(seat2ModelToWorld);
 		logSeatMesh2.shaderProgram(&lambertShader);
 
 		// Campfire Base
-		loadMesh(&campfireBaseMesh, assetsDirectory + "models/campfireBase.obj");
+		loadMesh(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
 		campfireBaseMesh.modelToWorld(campfireModelToWorld);
 		campfireBaseMesh.shaderProgram(&lambertShader);
 
@@ -217,6 +225,13 @@ int main()
 
 		// -- Texture Setup -- \\ 
 		// TODO Define and create remaining normal maps, speculars, mipmaps etc for all the models
+
+		// Floor Texture Setup
+		cv::Mat floorAlbedoSource = cv::imread(assetsDirectory + "textures/Floor/FloorAlbedo.jpg");
+		cv::cvtColor(floorAlbedoSource, floorAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint floorAlbedo;
+		glGenTextures(1, &floorAlbedo);
+		SetUpTexture(floorAlbedoSource, floorAlbedo);
 
 		// Sword Texture Setup
 		cv::Mat swordAlbedoSource = cv::imread(assetsDirectory + "textures/Sword/swordAlbedo.png");
@@ -260,6 +275,9 @@ int main()
 
 		std::ofstream profilerOut(queryOutDirectory + "profiling.csv");
 
+		noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 4, 0, 180, true);
+		noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
+
 		while (!shouldQuit) {
 			Uint64 frameStartTime = SDL_GetTicks64(); // for capping framerate to the previously defined maximum
 
@@ -302,6 +320,11 @@ int main()
 			// TODO Remaining texture binds to correct image units, to set up Shader Uniforms in the correct way
 			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
 			// This might also be extracted out into a separate function e.g. BindTexsAndRender()
+
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, floorAlbedo);
+
+			floorMesh.renderWithQuery();
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, swordAlbedo);

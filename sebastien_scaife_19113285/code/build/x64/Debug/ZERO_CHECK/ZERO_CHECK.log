@@ -1,1 +1,8 @@
 ﻿  1>Checking Build System
+  CMake is re-running because C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/SebScaifeCMP7172/CMakeFiles/generate.stamp is out-of-date.
+    the file 'C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/SebScaifeCMP7172/CMakeLists.txt'
+    is newer than 'C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/SebScaifeCMP7172/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  -- Configuring done (0.3s)
+  -- Generating done (0.3s)
+  -- Build files have been written to: C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build

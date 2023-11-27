@@ -52,3 +52,12 @@ void main()
 
 }
 
+// Implementation of Bousseau, A., et al.'s (2006)
+// Pigment-density color manipulation
+// if density = 1, returns the Source Color
+vec3 bousseauColorShift(vec3 _srcColor, float _density)
+{
+	vec3 outputColor = _srcColor - (_srcColor - pow(_srcColor, 2)) * (_density - 1);
+	return outputColor;
+}
+

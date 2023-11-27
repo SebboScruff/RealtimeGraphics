@@ -4,7 +4,10 @@
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NoiseMap.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -12,7 +15,10 @@
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NoiseMap.h">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

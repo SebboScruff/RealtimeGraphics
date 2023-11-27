@@ -28,6 +28,21 @@ Eigen::Matrix4f makeScaleMatrix(float scale)
 	return scaleMat;
 }
 
+// Seb Addition - Function Override for making uneven scale matrices
+// This one can just be called if a model needs to be scaled differently in different axes
+Eigen::Matrix4f makeScaleMatrix(float scaleX, float scaleY, float scaleZ)
+{
+	Eigen::Matrix4f scaleMat = Eigen::Matrix4f::Identity();
+
+	scaleMat(0, 0) = scaleX;
+	scaleMat(1, 1) = scaleY;
+	scaleMat(2, 2) = scaleZ;
+	scaleMat(3, 3) = 1.0f;
+
+	return scaleMat;
+}
+// End of Seb Addition
+
 // Seb Addition
 
 // Ensure the incoming Euler Angles are in Radians, not Degrees!
@@ -46,4 +61,18 @@ Eigen::Matrix4f makeRotationMatrix(const Eigen::Vector3f& _eulerAngles)
 	//rotMat(3, 3) = 1.0f;
 	return rotMat;
 }
+// End of Seb Addition
+
+// Seb Addition - make a full rotation matrix at once
+Eigen::Matrix4f makeFullTransformationMatrix(float _scaleX, float _scaleY, float _scaleZ, float _rotateX, float _rotateY, float _rotateZ, float _translateX, float _translateY, float _translateZ)
+{
+	Eigen::Matrix4f transform = Eigen::Matrix4f::Identity();
+
+	transform *= makeScaleMatrix(_scaleX, _scaleY, _scaleZ);
+	transform *= makeRotationMatrix(Eigen::Vector3f(_rotateX, _rotateY, _rotateZ));
+	transform *= makeTranslationMatrix(Eigen::Vector3f(_translateX, _translateY, _translateZ));
+
+	return transform;
+}
+
 // End of Seb Addition
