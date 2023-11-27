@@ -155,9 +155,15 @@ int main()
 
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
+		swordModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(-1.95f, 0.44f, -2.64f)); 
+		swordModelToWorld *= makeRotationMatrix(Eigen::Vector3f(DegToRad(15.4f), DegToRad(59.8f), DegToRad(-0.68f)));
+		swordModelToWorld *= makeScaleMatrix(1.59f);
 
 		// Shield
 		Eigen::Matrix4f shieldModelToWorld = Eigen::Matrix4f::Identity();
+		shieldModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(-1.87f, 0.27f, -1.3f));
+		shieldModelToWorld *= makeRotationMatrix(Eigen::Vector3f(DegToRad(-66.8f), DegToRad(61.6f), DegToRad(0.f)));
+		shieldModelToWorld *= makeScaleMatrix(3.1f);
 
 		// Campfire Base
 		Eigen::Matrix4f campfireModelToWorld = Eigen::Matrix4f::Identity();

@@ -68,9 +68,9 @@ Eigen::Matrix4f makeFullTransformationMatrix(float _scaleX, float _scaleY, float
 {
 	Eigen::Matrix4f transform = Eigen::Matrix4f::Identity();
 
-	transform *= makeScaleMatrix(_scaleX, _scaleY, _scaleZ);
-	transform *= makeRotationMatrix(Eigen::Vector3f(_rotateX, _rotateY, _rotateZ));
 	transform *= makeTranslationMatrix(Eigen::Vector3f(_translateX, _translateY, _translateZ));
+	transform *= makeRotationMatrix(Eigen::Vector3f(_rotateX, _rotateY, _rotateZ));
+	transform *= makeScaleMatrix(_scaleX, _scaleY, _scaleZ);
 
 	return transform;
 }
