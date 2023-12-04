@@ -257,12 +257,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.cpp" />
-    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.hpp" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\Skybox.cpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\Skybox.hpp" />
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.cpp" />
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.h" />
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.cpp" />
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.h" />
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\FireParticles.cpp" />
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\FireParticles.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\ZERO_CHECK.vcxproj">

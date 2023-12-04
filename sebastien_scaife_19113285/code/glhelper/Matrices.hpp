@@ -20,5 +20,5 @@ Eigen::Matrix4f makeRotationMatrix(const Eigen::Vector3f& eulerAngles);
 
 // Seb Addition, to make a single Transformation Matrix in one go
 
-Eigen::Matrix4f makeFullTransformationMatrix(float _scaleX, float _scaleY, float _scaleZ, float _rotateX, float _rotateY, float _rotateZ, float _translateX, float _translateY, float _translateZ);
+Eigen::Matrix4f makeFullTransformationMatrix(float _translateX, float _translateY, float _translateZ, float _rotateX, float _rotateY, float _rotateZ, float _scaleX, float _scaleY, float _scaleZ);
 

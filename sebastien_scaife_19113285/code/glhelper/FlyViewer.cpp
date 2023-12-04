@@ -123,6 +123,18 @@ void FlyViewer::position(const Eigen::Vector3f & p)
 	updateBuffer();
 }
 
+// Seb Addition
+float FlyViewer::GetTheta()
+{
+	return theta_;
+}
+
+float FlyViewer::GetPhi()
+{
+	return phi_;
+}
+// End of Seb Addition
+
 void FlyViewer::resize(size_t width, size_t height)
 {
 	float aspect = float(width)/float(height);

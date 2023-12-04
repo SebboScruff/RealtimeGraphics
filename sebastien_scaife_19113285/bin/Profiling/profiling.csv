@@ -1,160 +1,264 @@
 Render Iteration, 1
-Time taken for light, 0.028640ms 
-Time taken for floor, 0.197320ms 
-Time taken for sword, 0.089080ms 
-Time taken for shield, 0.027440ms 
-Time taken for seat1, 0.051160ms 
-Time taken for seat2, 0.050720ms 
-Time taken for campfireBase, 0.248400ms 
+Time taken for light, 0.026520ms 
+Time taken for floor, 0.129720ms 
+Time taken for sword, 0.066160ms 
+Time taken for shield, 0.039640ms 
+Time taken for seat1, 0.107720ms 
+Time taken for seat2, 0.070560ms 
+Time taken for campfireBase, 0.053040ms 
 Render Iteration, 2
-Time taken for light, 0.029240ms 
-Time taken for floor, 0.166480ms 
-Time taken for sword, 0.086600ms 
-Time taken for shield, 0.083080ms 
-Time taken for seat1, 0.051360ms 
-Time taken for seat2, 0.056080ms 
-Time taken for campfireBase, 0.208760ms 
+Time taken for light, 0.027880ms 
+Time taken for floor, 0.060000ms 
+Time taken for sword, 0.069200ms 
+Time taken for shield, 0.044680ms 
+Time taken for seat1, 0.054160ms 
+Time taken for seat2, 0.074440ms 
+Time taken for campfireBase, 0.054480ms 
 Render Iteration, 3
-Time taken for light, 0.028320ms 
-Time taken for floor, 0.360680ms 
-Time taken for sword, 0.048170ms 
-Time taken for shield, 0.008040ms 
-Time taken for seat1, 0.011280ms 
-Time taken for seat2, 0.010920ms 
-Time taken for campfireBase, 0.043280ms 
-Render Iteration, 4
-Time taken for light, 0.027400ms 
-Time taken for floor, 0.199480ms 
-Time taken for sword, 0.077920ms 
-Time taken for shield, 0.070200ms 
-Time taken for seat1, 0.022240ms 
-Time taken for seat2, 0.075480ms 
-Time taken for campfireBase, 0.135200ms 
-Render Iteration, 5
-Time taken for light, 0.028160ms 
-Time taken for floor, 0.192860ms 
-Time taken for sword, 0.086160ms 
-Time taken for shield, 0.104520ms 
-Time taken for seat1, 0.051280ms 
-Time taken for seat2, 0.114680ms 
-Time taken for campfireBase, 0.028320ms 
-Render Iteration, 6
-Time taken for light, 0.028640ms 
-Time taken for floor, 0.234040ms 
-Time taken for sword, 0.104440ms 
-Time taken for shield, 0.037520ms 
-Time taken for seat1, 0.051480ms 
-Time taken for seat2, 0.412840ms 
-Time taken for campfireBase, 0.006600ms 
-Render Iteration, 7
-Time taken for light, 0.027880ms 
-Time taken for floor, 0.247420ms 
-Time taken for sword, 0.125320ms 
-Time taken for shield, 0.098440ms 
-Time taken for seat1, 0.051280ms 
-Time taken for seat2, 0.537320ms 
-Time taken for campfireBase, 0.007040ms 
-Render Iteration, 8
-Time taken for light, 0.028080ms 
-Time taken for floor, 0.216860ms 
-Time taken for sword, 0.035720ms 
-Time taken for shield, 0.044360ms 
-Time taken for seat1, 0.011400ms 
-Time taken for seat2, 0.193720ms 
-Time taken for campfireBase, 0.051120ms 
-Render Iteration, 9
-Time taken for light, 0.027600ms 
-Time taken for floor, 0.287960ms 
-Time taken for sword, 0.092000ms 
-Time taken for shield, 0.074720ms 
-Time taken for seat1, 0.051160ms 
-Time taken for seat2, 0.194360ms 
-Time taken for campfireBase, 0.055560ms 
-Render Iteration, 10
-Time taken for light, 0.027880ms 
-Time taken for floor, 0.286400ms 
-Time taken for sword, 0.091960ms 
-Time taken for shield, 0.074440ms 
-Time taken for seat1, 0.051440ms 
-Time taken for seat2, 0.189680ms 
-Time taken for campfireBase, 0.052880ms 
-Render Iteration, 11
-Time taken for light, 0.028100ms 
-Time taken for floor, 0.302040ms 
-Time taken for sword, 0.090080ms 
-Time taken for shield, 0.070920ms 
-Time taken for seat1, 0.051320ms 
-Time taken for seat2, 0.219440ms 
-Time taken for campfireBase, 0.038520ms 
-Render Iteration, 12
-Time taken for light, 0.028320ms 
-Time taken for floor, 0.276420ms 
-Time taken for sword, 0.093000ms 
-Time taken for shield, 0.072280ms 
-Time taken for seat1, 0.055080ms 
-Time taken for seat2, 0.147960ms 
-Time taken for campfireBase, 0.080640ms 
-Render Iteration, 13
-Time taken for light, 0.028800ms 
-Time taken for floor, 0.256840ms 
-Time taken for sword, 0.091880ms 
-Time taken for shield, 0.071080ms 
-Time taken for seat1, 0.051040ms 
-Time taken for seat2, 0.186960ms 
-Time taken for campfireBase, 0.074450ms 
-Render Iteration, 14
-Time taken for light, 0.028040ms 
-Time taken for floor, 0.246960ms 
-Time taken for sword, 0.090680ms 
-Time taken for shield, 0.071960ms 
-Time taken for seat1, 0.051320ms 
-Time taken for seat2, 0.189160ms 
-Time taken for campfireBase, 0.071120ms 
-Render Iteration, 15
-Time taken for light, 0.031120ms 
-Time taken for floor, 0.300600ms 
-Time taken for sword, 0.086100ms 
-Time taken for shield, 0.047440ms 
-Time taken for seat1, 0.018640ms 
-Time taken for seat2, 0.195720ms 
-Time taken for campfireBase, 0.039240ms 
-Render Iteration, 16
-Time taken for light, 0.028480ms 
-Time taken for floor, 0.250280ms 
-Time taken for sword, 0.090960ms 
-Time taken for shield, 0.072280ms 
-Time taken for seat1, 0.051400ms 
-Time taken for seat2, 0.194720ms 
-Time taken for campfireBase, 0.054940ms 
-Render Iteration, 17
-Time taken for light, 0.027800ms 
-Time taken for floor, 0.237160ms 
-Time taken for sword, 0.103760ms 
-Time taken for shield, 0.094680ms 
-Time taken for seat1, 0.051400ms 
-Time taken for seat2, 0.302240ms 
-Time taken for campfireBase, 0.006800ms 
-Render Iteration, 18
 Time taken for light, 0.028000ms 
-Time taken for floor, 0.239480ms 
-Time taken for sword, 0.095840ms 
-Time taken for shield, 0.097520ms 
-Time taken for seat1, 0.051120ms 
-Time taken for seat2, 0.155040ms 
-Time taken for campfireBase, 0.112140ms 
+Time taken for floor, 0.099640ms 
+Time taken for sword, 0.074040ms 
+Time taken for shield, 0.064520ms 
+Time taken for seat1, 0.053720ms 
+Time taken for seat2, 0.107960ms 
+Time taken for campfireBase, 0.075120ms 
+Render Iteration, 4
+Time taken for light, 0.026560ms 
+Time taken for floor, 0.232800ms 
+Time taken for sword, 0.075760ms 
+Time taken for shield, 0.110640ms 
+Time taken for seat1, 0.054320ms 
+Time taken for seat2, 0.078640ms 
+Time taken for campfireBase, 0.159000ms 
+Render Iteration, 5
+Time taken for light, 0.027520ms 
+Time taken for floor, 0.225000ms 
+Time taken for sword, 0.081280ms 
+Time taken for shield, 0.073660ms 
+Time taken for seat1, 0.054040ms 
+Time taken for seat2, 0.121600ms 
+Time taken for campfireBase, 0.103440ms 
+Render Iteration, 6
+Time taken for light, 0.027520ms 
+Time taken for floor, 0.224120ms 
+Time taken for sword, 0.080840ms 
+Time taken for shield, 0.075160ms 
+Time taken for seat1, 0.053800ms 
+Time taken for seat2, 0.118520ms 
+Time taken for campfireBase, 0.079480ms 
+Render Iteration, 7
+Time taken for light, 0.027360ms 
+Time taken for floor, 0.225400ms 
+Time taken for sword, 0.081080ms 
+Time taken for shield, 0.074840ms 
+Time taken for seat1, 0.053760ms 
+Time taken for seat2, 0.120600ms 
+Time taken for campfireBase, 0.102160ms 
+Render Iteration, 8
+Time taken for light, 0.027560ms 
+Time taken for floor, 0.222440ms 
+Time taken for sword, 0.081120ms 
+Time taken for shield, 0.075640ms 
+Time taken for seat1, 0.054040ms 
+Time taken for seat2, 0.115300ms 
+Time taken for campfireBase, 0.077560ms 
+Render Iteration, 9
+Time taken for light, 0.009440ms 
+Time taken for floor, 0.234360ms 
+Time taken for sword, 0.039720ms 
+Time taken for shield, 0.057200ms 
+Time taken for seat1, 0.013560ms 
+Time taken for seat2, 0.110880ms 
+Time taken for campfireBase, 0.086880ms 
+Render Iteration, 10
+Time taken for light, 0.028040ms 
+Time taken for floor, 0.227440ms 
+Time taken for sword, 0.081000ms 
+Time taken for shield, 0.075760ms 
+Time taken for seat1, 0.053880ms 
+Time taken for seat2, 0.122520ms 
+Time taken for campfireBase, 0.103760ms 
+Render Iteration, 11
+Time taken for light, 0.028720ms 
+Time taken for floor, 0.246880ms 
+Time taken for sword, 0.080960ms 
+Time taken for shield, 0.066620ms 
+Time taken for seat1, 0.014520ms 
+Time taken for seat2, 0.100360ms 
+Time taken for campfireBase, 0.078120ms 
+Render Iteration, 12
+Time taken for light, 0.028000ms 
+Time taken for floor, 0.222880ms 
+Time taken for sword, 0.081560ms 
+Time taken for shield, 0.074880ms 
+Time taken for seat1, 0.054080ms 
+Time taken for seat2, 0.116500ms 
+Time taken for campfireBase, 0.078160ms 
+Render Iteration, 13
+Time taken for light, 0.027600ms 
+Time taken for floor, 0.228900ms 
+Time taken for sword, 0.081320ms 
+Time taken for shield, 0.075920ms 
+Time taken for seat1, 0.054000ms 
+Time taken for seat2, 0.123080ms 
+Time taken for campfireBase, 0.106080ms 
+Render Iteration, 14
+Time taken for light, 0.027760ms 
+Time taken for floor, 0.224240ms 
+Time taken for sword, 0.080920ms 
+Time taken for shield, 0.074000ms 
+Time taken for seat1, 0.054080ms 
+Time taken for seat2, 0.122200ms 
+Time taken for campfireBase, 0.103400ms 
+Render Iteration, 15
+Time taken for light, 0.028240ms 
+Time taken for floor, 0.224320ms 
+Time taken for sword, 0.080600ms 
+Time taken for shield, 0.075360ms 
+Time taken for seat1, 0.054200ms 
+Time taken for seat2, 0.115010ms 
+Time taken for campfireBase, 0.077520ms 
+Render Iteration, 16
+Time taken for light, 0.027880ms 
+Time taken for floor, 0.222720ms 
+Time taken for sword, 0.080720ms 
+Time taken for shield, 0.075240ms 
+Time taken for seat1, 0.054440ms 
+Time taken for seat2, 0.120480ms 
+Time taken for campfireBase, 0.102720ms 
+Render Iteration, 17
+Time taken for light, 0.008400ms 
+Time taken for floor, 0.188080ms 
+Time taken for sword, 0.036560ms 
+Time taken for shield, 0.054400ms 
+Time taken for seat1, 0.013920ms 
+Time taken for seat2, 0.108360ms 
+Time taken for campfireBase, 0.089640ms 
+Render Iteration, 18
+Time taken for light, 0.027360ms 
+Time taken for floor, 0.225040ms 
+Time taken for sword, 0.080920ms 
+Time taken for shield, 0.075120ms 
+Time taken for seat1, 0.049600ms 
+Time taken for seat2, 0.101600ms 
+Time taken for campfireBase, 0.077400ms 
 Render Iteration, 19
-Time taken for light, 0.028280ms 
-Time taken for floor, 0.226600ms 
-Time taken for sword, 0.067840ms 
-Time taken for shield, 0.016220ms 
-Time taken for seat1, 0.131800ms 
-Time taken for seat2, 0.016440ms 
-Time taken for campfireBase, 0.037240ms 
+Time taken for light, 0.027280ms 
+Time taken for floor, 0.223600ms 
+Time taken for sword, 0.081080ms 
+Time taken for shield, 0.074400ms 
+Time taken for seat1, 0.054200ms 
+Time taken for seat2, 0.126840ms 
+Time taken for campfireBase, 0.103640ms 
 Render Iteration, 20
-Time taken for light, 0.027800ms 
-Time taken for floor, 0.167400ms 
-Time taken for sword, 0.071400ms 
-Time taken for shield, 0.046480ms 
-Time taken for seat1, 0.012480ms 
-Time taken for seat2, 0.032200ms 
-Time taken for campfireBase, 0.061040ms 
+Time taken for light, 0.028520ms 
+Time taken for floor, 0.226080ms 
+Time taken for sword, 0.081200ms 
+Time taken for shield, 0.075800ms 
+Time taken for seat1, 0.054000ms 
+Time taken for seat2, 0.128570ms 
+Time taken for campfireBase, 0.082520ms 
+Render Iteration, 21
+Time taken for light, 0.029360ms 
+Time taken for floor, 0.271220ms 
+Time taken for sword, 0.080880ms 
+Time taken for shield, 0.075360ms 
+Time taken for seat1, 0.054160ms 
+Time taken for seat2, 0.122040ms 
+Time taken for campfireBase, 0.102560ms 
+Render Iteration, 22
+Time taken for light, 0.027720ms 
+Time taken for floor, 0.225840ms 
+Time taken for sword, 0.043280ms 
+Time taken for shield, 0.044880ms 
+Time taken for seat1, 0.013520ms 
+Time taken for seat2, 0.097960ms 
+Time taken for campfireBase, 0.078200ms 
+Render Iteration, 23
+Time taken for light, 0.027620ms 
+Time taken for floor, 0.222760ms 
+Time taken for sword, 0.083600ms 
+Time taken for shield, 0.076240ms 
+Time taken for seat1, 0.053880ms 
+Time taken for seat2, 0.121680ms 
+Time taken for campfireBase, 0.103120ms 
+Render Iteration, 24
+Time taken for light, 0.031400ms 
+Time taken for floor, 0.248440ms 
+Time taken for sword, 0.035600ms 
+Time taken for shield, 0.058920ms 
+Time taken for seat1, 0.013440ms 
+Time taken for seat2, 0.139200ms 
+Time taken for campfireBase, 0.121960ms 
+Render Iteration, 25
+Time taken for light, 0.028760ms 
+Time taken for floor, 0.221560ms 
+Time taken for sword, 0.080800ms 
+Time taken for shield, 0.075560ms 
+Time taken for seat1, 0.054000ms 
+Time taken for seat2, 0.121600ms 
+Time taken for campfireBase, 0.103080ms 
+Render Iteration, 26
+Time taken for light, 0.027680ms 
+Time taken for floor, 0.221760ms 
+Time taken for sword, 0.080920ms 
+Time taken for shield, 0.075280ms 
+Time taken for seat1, 0.055080ms 
+Time taken for seat2, 0.138920ms 
+Time taken for campfireBase, 0.113840ms 
+Render Iteration, 27
+Time taken for light, 0.027760ms 
+Time taken for floor, 0.223840ms 
+Time taken for sword, 0.080720ms 
+Time taken for shield, 0.074320ms 
+Time taken for seat1, 0.053840ms 
+Time taken for seat2, 0.124600ms 
+Time taken for campfireBase, 0.103360ms 
+Render Iteration, 28
+Time taken for light, 0.029200ms 
+Time taken for floor, 0.263130ms 
+Time taken for sword, 0.082880ms 
+Time taken for shield, 0.075480ms 
+Time taken for seat1, 0.054160ms 
+Time taken for seat2, 0.120520ms 
+Time taken for campfireBase, 0.102280ms 
+Render Iteration, 29
+Time taken for light, 0.027240ms 
+Time taken for floor, 0.221960ms 
+Time taken for sword, 0.081800ms 
+Time taken for shield, 0.076120ms 
+Time taken for seat1, 0.053480ms 
+Time taken for seat2, 0.121800ms 
+Time taken for campfireBase, 0.102880ms 
+Render Iteration, 30
+Time taken for light, 0.028040ms 
+Time taken for floor, 0.217560ms 
+Time taken for sword, 0.081000ms 
+Time taken for shield, 0.075160ms 
+Time taken for seat1, 0.053480ms 
+Time taken for seat2, 0.124000ms 
+Time taken for campfireBase, 0.100840ms 
+Render Iteration, 31
+Time taken for light, 0.028120ms 
+Time taken for floor, 0.223760ms 
+Time taken for sword, 0.081120ms 
+Time taken for shield, 0.075520ms 
+Time taken for seat1, 0.053520ms 
+Time taken for seat2, 0.123400ms 
+Time taken for campfireBase, 0.082890ms 
+Render Iteration, 32
+Time taken for light, 0.007960ms 
+Time taken for floor, 0.154600ms 
+Time taken for sword, 0.029360ms 
+Time taken for shield, 0.045720ms 
+Time taken for seat1, 0.012680ms 
+Time taken for seat2, 0.099520ms 
+Time taken for campfireBase, 0.077960ms 
+Render Iteration, 33
+Time taken for light, 0.027120ms 
+Time taken for floor, 0.215200ms 
+Time taken for sword, 0.079240ms 
+Time taken for shield, 0.047090ms 
+Time taken for seat1, 0.013080ms 
+Time taken for seat2, 0.084800ms 
+Time taken for campfireBase, 0.069840ms 

@@ -1,1 +1,1 @@
-add_library(SebScaifeCMP7172 CubemapTexture.cpp CubemapTexture.hpp NoiseMap.cpp NoiseMap.h OpenSimplexNoise.cpp OpenSimplexNoise.h)
+add_library(SebScaifeCMP7172 Skybox.cpp Skybox.hpp NoiseMap.cpp NoiseMap.h OpenSimplexNoise.cpp OpenSimplexNoise.h FireParticles.cpp FireParticles.h)

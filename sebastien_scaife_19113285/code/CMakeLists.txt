@@ -57,4 +57,4 @@ function(add_executable_rtg name)
     set_target_properties(${name} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${SDL_DLL_DIR};${SDL_TTF_DLL_DIR};${OpenCV_DLL_DIR};${GLEW_DLL_DIR};${Assimp_DLL_DIR};%PATH%")
 endfunction()
 
-add_executable_rtg(main) 
+add_executable_rtg(main)

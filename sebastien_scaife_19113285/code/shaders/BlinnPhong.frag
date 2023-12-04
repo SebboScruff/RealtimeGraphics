@@ -14,7 +14,7 @@ in vec2 texCoord;
 out vec4 colorOut;
 
 uniform sampler2D albedo;			// diffuse map from texture file 
-uniform sampler2D specularIntensity; // metallic map from texture file
+uniform sampler2D specularIntensityMap; // metallic map from texture file
 uniform float specularExponent;
 
 uniform vec3 lightPosWorld;
@@ -35,7 +35,7 @@ void main()
 	float lightDistance = length(lightPosWorld - fragPosWorld);
 
 	vec4 albedoSample = texture(albedo, texCoord);
-	vec4 specularSample = texture(specularIntensity, texCoord);
+	float specularSample = texture(specularIntensityMap, texCoord).r;
 
 	// Render with a Normalised, Modified Blinn-Phong shader
 	float normFactor = (specularExponent + 8)/8;
@@ -44,7 +44,7 @@ void main()
 
 	// Adjust for lighting variables
 	colorOut *= lightIntensity;
-	//colorOut /= (lightDistance * lightDistance);
+	colorOut /= (lightDistance * lightDistance);
 	colorOut.a = 1;
 }
 

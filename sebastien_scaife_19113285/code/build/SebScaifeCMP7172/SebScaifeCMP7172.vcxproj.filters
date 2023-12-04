@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.cpp">
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.cpp">
@@ -10,15 +10,21 @@
     <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\FireParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\CubemapTexture.hpp">
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\Skybox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\NoiseMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\OpenSimplexNoise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\SebScaifeCMP7172\FireParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

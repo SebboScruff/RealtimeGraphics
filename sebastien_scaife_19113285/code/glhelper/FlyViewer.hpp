@@ -19,6 +19,11 @@ public:
 	void rotation(float theta, float phi);
 	void position(const Eigen::Vector3f &p);
 
+	// Seb addition
+	float GetTheta();
+	float GetPhi();
+	// End of Seb Addition
+
 	virtual void resize(size_t width, size_t height);
 	virtual Eigen::Matrix4f worldToCam() const;
 private:

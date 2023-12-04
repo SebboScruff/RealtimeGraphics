@@ -64,7 +64,7 @@ Eigen::Matrix4f makeRotationMatrix(const Eigen::Vector3f& _eulerAngles)
 // End of Seb Addition
 
 // Seb Addition - make a full rotation matrix at once
-Eigen::Matrix4f makeFullTransformationMatrix(float _scaleX, float _scaleY, float _scaleZ, float _rotateX, float _rotateY, float _rotateZ, float _translateX, float _translateY, float _translateZ)
+Eigen::Matrix4f makeFullTransformationMatrix(float _translateX, float _translateY, float _translateZ, float _rotateX, float _rotateY, float _rotateZ, float _scaleX, float _scaleY, float _scaleZ)
 {
 	Eigen::Matrix4f transform = Eigen::Matrix4f::Identity();
 

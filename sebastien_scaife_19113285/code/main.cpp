@@ -36,6 +36,7 @@ const std::string queryOutDirectory = "../../bin/Profiling/";
 float lightTheta = 0.0f;
 Eigen::Vector3f lightPosition(0.f, 10.f, 0.f);
 float lightIntensity = 60.f;
+float testSpecularExponent = -8.f;
 // Lighting directions etc. are done locally to each face in shaders where appropriate
 
 // This will eventually control which rendering style is being used: photorealism, or watercolor-style artistic shading, or some other type if I get round to it
@@ -130,12 +131,14 @@ int main()
 
 		// TODO Define remaining Shader Programs
 		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // mainly for checking that meshes are loaded correctly, delete this eventually
-		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" });
+		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // plain white to signify where the light in the scene is
 		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // mainly rfor checking that textures are loaded correctly
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // TODO this needs a few fixes, eventually apply to Sword & Shield models
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
+		viewer.position(Eigen::Vector3f(-8.3f, -1.0f, 3.f));
+		viewer.rotation(4.49f, 0.05f);
 
 		// Define all necessary meshes
 		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so that it is easy to write out Render Queries en masse
@@ -146,7 +149,7 @@ int main()
 		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
 
 		// -- Translation Matrix Set-up -- \\
-		// TODO finalise mesh transformation matrices
+
 		// Light Sphere
 		Eigen::Matrix4f lightSphereM2W = makeTranslationMatrix(lightPosition);
 
@@ -191,12 +194,12 @@ int main()
 		// Sword
 		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
 		swordMesh.modelToWorld(swordModelToWorld);
-		swordMesh.shaderProgram(&lambertShader);
+		swordMesh.shaderProgram(&blinnPhongShader);
 
 		// Shield
 		loadMesh(&shieldMesh, assetsDirectory + "models/shield.obj");
 		shieldMesh.modelToWorld(shieldModelToWorld);
-		shieldMesh.shaderProgram(&lambertShader);
+		shieldMesh.shaderProgram(&blinnPhongShader);
 
 		// Seats
 		loadMesh(&logSeatMesh1, assetsDirectory + "models/fromBlend/logSeat1.obj");
@@ -221,9 +224,9 @@ int main()
 
 		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
 
-		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0);
-		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1);
-		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), 60.f); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
+		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
+		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1); // NOTE: Metallic Maps bound to Image Unit 1
+		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), testSpecularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
 		glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
 		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
 
@@ -245,6 +248,12 @@ int main()
 		GLuint swordAlbedo;
 		glGenTextures(1, &swordAlbedo);
 		SetUpTexture(swordAlbedoSource, swordAlbedo);
+		// ----
+		cv::Mat swordMetallicSource = cv::imread(assetsDirectory + "textures/Sword/swordMetallicSmoothness.png");
+		cv::cvtColor(swordMetallicSource, swordMetallicSource, cv::COLOR_BGR2RGB);
+		GLuint swordMetallic;
+		glGenTextures(1, &swordMetallic);
+		SetUpTexture(swordMetallicSource, swordMetallic);
 
 		// Shield Texture Setup
 		cv::Mat shieldAlbedoSource = cv::imread(assetsDirectory + "textures/Shield/shieldAlbedo.png");
@@ -252,6 +261,12 @@ int main()
 		GLuint shieldAlbedo;
 		glGenTextures(1, &shieldAlbedo);
 		SetUpTexture(shieldAlbedoSource, shieldAlbedo);
+		// ----
+		cv::Mat shieldMetallicSource = cv::imread(assetsDirectory + "textures/Shield/shieldMetallic.png");
+		cv::cvtColor(shieldMetallicSource, shieldMetallicSource, cv::COLOR_BGR2RGB);
+		GLuint shieldMetallic;
+		glGenTextures(1, &shieldMetallic);
+		SetUpTexture(shieldMetallicSource, shieldMetallic);
 
 		// Log Seat Texture Setup
 		cv::Mat logAlbedoSource = cv::imread(assetsDirectory + "textures/LogSeat/logAlbedo.jpg");
@@ -301,15 +316,26 @@ int main()
 					// Change rendering style using number commands
 					if (event.key.keysym.sym == SDLK_1) {
 						// Standard photorealism
+
+						// Sword and shield use Blinn-Phong
+						// Floor, Logs, Trees use Lambert with Normalmaps
 					}
 					else if (event.key.keysym.sym == SDLK_2) {
 						//  TODO Watercolor custom renderer
+
+						// Everything uses Watercolor shader
 					}
-					else if (event.key.keysym.sym == SDLK_3) {
-						//  EXTENSION Pencil Sketch custom renderer
+					else if (event.key.keysym.sym == SDLK_UP) {
+						// Controls for debugging/setting correct material properties
+						lightIntensity += 1.f;
+						std::cout << "Light Intensity = " << lightIntensity << std::endl;
+						glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
 					}
-					else if (event.key.keysym.sym == SDLK_4) {
-						//  EXTENSION Cel Shader
+					else if (event.key.keysym.sym == SDLK_DOWN) {
+						// Controls for debugging/setting correct material properties
+						lightIntensity -= 1.f;
+						std::cout << "Light Intensity = " << lightIntensity << std::endl;
+						glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
 					}
 				}
 			}
@@ -332,15 +358,25 @@ int main()
 
 			floorMesh.renderWithQuery();
 
-			glActiveTexture(GL_TEXTURE0 + 0);
+			// ----
+
+			glActiveTexture(GL_TEXTURE0 + 0); // Bind Albedo to Image Unit 0
 			glBindTexture(GL_TEXTURE_2D, swordAlbedo);
+			glActiveTexture(GL_TEXTURE0 + 1); // Bind Metallic to Image Unit 1
+			glBindTexture(GL_TEXTURE_2D, swordMetallic);
 
 			swordMesh.renderWithQuery();
 
+			// ----
+
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, shieldAlbedo);
+			glActiveTexture(GL_TEXTURE0 + 1);
+			glBindTexture(GL_TEXTURE_2D, shieldMetallic);
 
 			shieldMesh.renderWithQuery();
+
+			// ----
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, logAlbedo);
@@ -348,10 +384,15 @@ int main()
 			logSeatMesh1.renderWithQuery();
 			logSeatMesh2.renderWithQuery();
 
+			// ----
+
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, campfireAlbedo);
 
 			campfireBaseMesh.renderWithQuery();
+
+			// ----
+
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
