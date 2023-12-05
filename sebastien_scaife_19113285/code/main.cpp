@@ -132,8 +132,11 @@ int main()
 		// TODO Define remaining Shader Programs
 		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // mainly for checking that meshes are loaded correctly, delete this eventually
 		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // plain white to signify where the light in the scene is
-		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // mainly rfor checking that textures are loaded correctly
-		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // TODO this needs a few fixes, eventually apply to Sword & Shield models
+		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // Flat Lambert Shader, mainly for checking that textures are loaded correctly
+		glhelper::ShaderProgram normalMapShader({ "../shaders/LambertWithNormal.vert", "../shaders/LambertWithNormal.frag" }); // Lambert Shader with Normal Mapping applied, for Log Seats and the like.
+		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects
+		//glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // Independantly researched and implemented Stylised Shader
+		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
@@ -223,6 +226,8 @@ int main()
 		glProgramUniform4f(lightSphereShader.get(), lightSphereShader.uniformLoc("color"), 1.f, 1.f, 1.f, 1.f); // just set the light to be plain white
 
 		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
+
+		// TODO Set up Normal Map Uniforms
 
 		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
 		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1); // NOTE: Metallic Maps bound to Image Unit 1

@@ -40,7 +40,7 @@ set(LIBRARIES
 )
 function(add_executable_rtg name)
     set(SHADER_LIST)
-    file(GLOB SHADER_LIST shaders/*.vert shaders/*.frag)
+    file(GLOB SHADER_LIST shaders/*.vert shaders/*.frag shaders/*.geom)
 
 
     add_executable(${name}

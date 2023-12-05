@@ -15,6 +15,15 @@
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\BlinnPhong.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FireParticle.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FireParticle.geom">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FireParticle.vert">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\FixedColor.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -25,6 +34,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Lambert.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\LambertWithNormal.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\LambertWithNormal.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Skybox.frag">

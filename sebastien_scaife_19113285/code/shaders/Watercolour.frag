@@ -4,8 +4,10 @@
 uniform sampler2D albedoTexture;
 uniform sampler1D lightingTexture;
 // Need to bring in a sampler2D each for:
-// Turbulent Flow: Perlin Noise Map
+// Turbulent Flow: Simplex Noise Map
+uniform sampler2D turbulentFlowMap;
 // Pigment Distribution: Gaussian Noise Map
+uniform sampler2D pigmentDistributionMap;
 // (Paper Layer: Pre-Loaded Paper Texture)
 
 // also need a uniform float for colourModStrength (variable k in the formulae below)
