@@ -16,6 +16,7 @@
 #include "assimp/scene.h"
 #include <opencv2/opencv.hpp>
 #include <SebScaifeCMP7172/NoiseMap.h>
+#include <SebScaifeCMP7172/FireParticles.h>
 #define GLT_IMPLEMENTATION
 #include <gltext.h>
 #include <fstream>
@@ -37,12 +38,32 @@ float lightTheta = 0.0f;
 Eigen::Vector3f lightPosition(0.f, 10.f, 0.f);
 float lightIntensity = 60.f;
 float testSpecularExponent = -8.f;
-// Lighting directions etc. are done locally to each face in shaders where appropriate
+// TODO Probably extract these out and turn them into a 'Light' Class, so that it's easier to read
+// Shadowmapping Settings
+const int shadowCubemapSize = 512; // resolution of shadow cubemap sections
+const float shadowMapNear = 0.5f, shadowMapFar = 100.f; // clipping planes for shadow mapping perspective
+Eigen::Matrix4f angleAxisMat4(float angle, const Eigen::Vector3f& axis)
+{
+	Eigen::Matrix4f output = Eigen::Matrix4f::Identity();
+	output.block<3, 3>(0, 0) = Eigen::AngleAxisf(angle, axis).matrix();
+	return output;
+}
+const std::array<Eigen::Matrix4f, 6> cubemapRotations{
+			angleAxisMat4(float(M_PI_2), Eigen::Vector3f(0,1,0)),//POSITIVE_X - rotate right 90 degrees
+			angleAxisMat4(float(-M_PI_2), Eigen::Vector3f(0,1,0)),//NEGATIVE_X - rotate left 90 degrees
+			angleAxisMat4(float(-M_PI_2), Eigen::Vector3f(1,0,0)) * angleAxisMat4(float(M_PI), Eigen::Vector3f(0,1,0)),//POSITIVE_Y - rotate up 90 degrees
+			angleAxisMat4(float(M_PI_2), Eigen::Vector3f(1,0,0)) * angleAxisMat4(float(M_PI), Eigen::Vector3f(0,1,0)),//NEGATIVE_Y - rotate down 90 degrees
+			angleAxisMat4(float(M_PI), Eigen::Vector3f(0,1,0)),     //POSITIVE_Z - rotate right 180 degrees
+			Eigen::Matrix4f::Identity()                           //NEGATIVE_Z - unchanged
+}; // pre-defined rotation matrices for each face of a cube
 
-// This will eventually control which rendering style is being used: photorealism, or watercolor-style artistic shading, or some other type if I get round to it
+// NOTE: Lighting directions etc. are done locally to each face in shaders where appropriate
+
+// This will eventually control which rendering style is being used:
+// 0 = non-stylised/realistic, 1 = watercolor-style artistic shading
 int currentRenderMode = 0;
 
-NoiseMap noiseMapMaster;
+NoiseMap noiseMapMaster; // Noisemap Generator for helping with the Watercolor Shader
 
 void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 {
@@ -135,6 +156,8 @@ int main()
 		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // Flat Lambert Shader, mainly for checking that textures are loaded correctly
 		glhelper::ShaderProgram normalMapShader({ "../shaders/LambertWithNormal.vert", "../shaders/LambertWithNormal.frag" }); // Lambert Shader with Normal Mapping applied, for Log Seats and the like.
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects
+		glhelper::ShaderProgram shadowCubemapShader({"../shaders/ShadowMap.vert", "../shaders/ShadowMap.frag"}); // Shadow Cubemap Shader for storing depth values
+		glhelper::ShaderProgram shadowMappedShader({"../shaders/ShadowMappedSurface.vert", "../shaders/ShadowMappedSurface.frag"}); // Shader that uses the shadowcast cubemap to darken areas that should be in shadow
 		//glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // Independantly researched and implemented Stylised Shader
 		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles
 
@@ -146,10 +169,16 @@ int main()
 		// Define all necessary meshes
 		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so that it is easy to write out Render Queries en masse
 		glhelper::Mesh lightSphere("light");
+		lightSphere.setCastsShadow(false);
+
 		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
 
+		FireParticles fireParticles("fire");
+		fireParticles.drawMode(GL_POINTS);
+		fireParticles.setCastsShadow(false);
+
 		// for writing GL Queries
-		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh };
+		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh, &fireParticles };
 
 		// -- Translation Matrix Set-up -- \\
 
@@ -175,6 +204,9 @@ int main()
 		Eigen::Matrix4f campfireModelToWorld = Eigen::Matrix4f::Identity();
 		campfireModelToWorld *= makeScaleMatrix(0.6f);
 		campfireModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(0.f, -0.15f, 0.f));
+		// ----
+		Eigen::Matrix4f fireModelToWorld = Eigen::Matrix4f::Identity();
+		fireModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(0.f, -0.2f, 0.f));
 
 		// Seats
 		Eigen::Matrix4f seat1ModelToWorld = Eigen::Matrix4f::Identity();
@@ -207,16 +239,19 @@ int main()
 		// Seats
 		loadMesh(&logSeatMesh1, assetsDirectory + "models/fromBlend/logSeat1.obj");
 		logSeatMesh1.modelToWorld(seat1ModelToWorld);
-		logSeatMesh1.shaderProgram(&lambertShader);
+		logSeatMesh1.shaderProgram(&normalMapShader);
 
 		loadMesh(&logSeatMesh2, assetsDirectory + "models/fromBlend/logSeat2.obj");
 		logSeatMesh2.modelToWorld(seat2ModelToWorld);
-		logSeatMesh2.shaderProgram(&lambertShader);
+		logSeatMesh2.shaderProgram(&normalMapShader);
 
 		// Campfire Base
 		loadMesh(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
 		campfireBaseMesh.modelToWorld(campfireModelToWorld);
 		campfireBaseMesh.shaderProgram(&lambertShader);
+
+		fireParticles.modelToWorld(fireModelToWorld);
+		fireParticles.shaderProgram(&fireShader);
 
 		// -- End of Model Loading -- \\
 
@@ -227,13 +262,38 @@ int main()
 
 		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
 
-		// TODO Set up Normal Map Uniforms
+		// TODO Normal Map Uniform Set-up:
+		{
+			glProgramUniform1i(normalMapShader.get(), normalMapShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
+			glProgramUniform1i(normalMapShader.get(), normalMapShader.uniformLoc("normalMap"), 2); // NOTE: Normal Maps bound to Image Unit 2
+			glProgramUniform3f(normalMapShader.get(), normalMapShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z());
+			glProgramUniform1f(normalMapShader.get(), normalMapShader.uniformLoc("lightIntensity"), lightIntensity);
+		}
+		// Blinn-Phong Uniform Set-up:
+		{
+			glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
+			glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1); // NOTE: Metallic Maps bound to Image Unit 1
+			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), testSpecularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
+			glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
+			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
+		}
+		// Fire Particle Shader Uniform Set-up
+		{
+			glProgramUniform1i(fireShader.get(), fireShader.uniformLoc("flameColorTex"), 0);
+			glProgramUniform1i(fireShader.get(), fireShader.uniformLoc("flameAlphaTex"), 1);
 
-		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
-		glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1); // NOTE: Metallic Maps bound to Image Unit 1
-		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), testSpecularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
-		glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
-		glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
+			auto flameCoeffts = fireParticles.SolveForFlameCubic();
+			glProgramUniform4f(fireShader.get(), fireShader.uniformLoc("flameCubicCoeffts"), flameCoeffts[0], flameCoeffts[1], flameCoeffts[2], flameCoeffts[3]);
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("duration"), fireParticles.GetDuration());
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("flameHeight"), fireParticles.GetHeight());
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("texWindowSize"), fireParticles.GetTexWindowSize());
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("flameFadeoutStart"), fireParticles.GetFadeoutStart());
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("flameFadeinEnd"), fireParticles.GetFadeinEnd());
+		}
+		// TODO Watercolour Shader Uniform Set-up:
+		{
+
+		}
 
 		// -- End of Shader Uniform Setup -- \\
 
@@ -280,12 +340,32 @@ int main()
 		glGenTextures(1, &logAlbedo);
 		SetUpTexture(logAlbedoSource, logAlbedo);
 
-		// Campfire Texture Setup
+		// Campfire Base Texture Setup
 		cv::Mat campfireAlbedoSource = cv::imread(assetsDirectory + "textures/Campfire/campfireBaseAlbedo.jpg");
 		cv::cvtColor(campfireAlbedoSource, campfireAlbedoSource, cv::COLOR_BGR2RGB);
 		GLuint campfireAlbedo;
 		glGenTextures(1, &campfireAlbedo);
 		SetUpTexture(campfireAlbedoSource, campfireAlbedo);
+
+		// --FireParticles--
+		cv::Mat fireColourSource = cv::imread(assetsDirectory + "textures/Campfire/flameColor.png");
+		// Don't need to run cv::cvtColor here because the fire colour source is already in the right colour space
+		GLuint fireColour;
+		glGenTextures(1, &fireColour); // Specifically not using my SetUpTexture() method here because that function generates 2D textures, and this only wants to be 1D
+		glBindTexture(GL_TEXTURE_1D, fireColour);
+		glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB8, fireColourSource.cols, 0, GL_BGR, GL_UNSIGNED_BYTE, fireColourSource.data);
+		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_1D, 0);
+		// ----
+		cv::Mat fireAlphaSource = cv::imread(assetsDirectory + "textures/Campfire/fireAlpha.png", cv::IMREAD_UNCHANGED);
+		GLuint fireAlpha;
+		glGenTextures(1, &fireAlpha);
+		glBindTexture(GL_TEXTURE_2D, fireAlpha);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, fireAlphaSource.cols, fireAlphaSource.rows, 0, GL_RED, GL_UNSIGNED_BYTE, fireAlphaSource.data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// --Shadow Mapping--
 
 		// -- End of Texture Setup -- \\
 
@@ -304,8 +384,13 @@ int main()
 		noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 4, 0, 180, true);
 		noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
 
+		// mark the time with a stopwatch to enable flame particle animations - this is not used for any render queries or anything that is
+		// actually time-sensitive, it's just used for measuring time passed in-application.
+		auto startTime = std::chrono::steady_clock::now();
+
 		while (!shouldQuit) {
 			Uint64 frameStartTime = SDL_GetTicks64(); // for capping framerate to the previously defined maximum
+			float animationTimeSeconds = 1e-6f * (float)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
 
 			viewer.update();
 
@@ -349,6 +434,10 @@ int main()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glDisable(GL_CULL_FACE);
+
+			// Set the time parameter for the fire particles before doing any rendering
+			// if something takes a really long time to render then the particles won't hang (hopefully)
+			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("time"), animationTimeSeconds);
 
 			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
 
@@ -396,6 +485,20 @@ int main()
 
 			campfireBaseMesh.renderWithQuery();
 
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_1D, fireColour);
+			glActiveTexture(GL_TEXTURE0 + 1);
+			glBindTexture(GL_TEXTURE_2D, fireAlpha);
+			// Turn on GL Blend and turn off Depth Masking specifically for rendering the fire particles, then switch it all back to normal again.
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			glBlendEquation(GL_FUNC_ADD);
+			glDepthMask(GL_FALSE);
+			fireParticles.renderWithQuery();	
+
+			glDisable(GL_BLEND);
+			glDepthMask(GL_TRUE);
+
 			// ----
 
 
@@ -430,9 +533,11 @@ int main()
 		// Clean up
 
 		glDeleteTextures(1, &swordAlbedo);
+		glDeleteTextures(1, &swordMetallic);
 		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
 
 		glDeleteTextures(1, &shieldAlbedo);
+		glDeleteTextures(1, &shieldMetallic);
 		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
 
 		glDeleteTextures(1, &logAlbedo);
@@ -440,6 +545,8 @@ int main()
 
 		glDeleteTextures(1, &campfireAlbedo);
 		// TODO DELETE ANY OTHER CAMPFIRE TEXTURES E.G. PARTICLES
+		glDeleteTextures(1, &fireColour);
+		glDeleteTextures(1, &fireAlpha);
 	}
 
 

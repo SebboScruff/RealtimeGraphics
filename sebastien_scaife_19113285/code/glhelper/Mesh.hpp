@@ -39,11 +39,16 @@ private:
 	Mesh& operator=(const Mesh&);
 	std::unique_ptr<VertexBuffer> vert_, norm_, tex_, color_, tangent_, bitangent_;
 	std::unique_ptr<ElementBuffer> elem_;
-	ShaderProgram *shaderProgram_;
+	bool castsShadow_;
+
+// Seb Addition: These have been moved to be protected rather than strictly private,
+// since FireParticles inherits from Mesh and wants to use these in its constructor
+protected:
+	ShaderProgram* shaderProgram_;
 	GLuint vao_;
 	size_t nElems_, nVerts_;
 	GLenum drawMode_;
-	bool castsShadow_;
+// End of Seb Addition
 };
 
 }

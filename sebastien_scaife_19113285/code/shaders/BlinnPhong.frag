@@ -1,3 +1,4 @@
+/*A Lit Metallic shader that takes in a metallic map to allow different degrees of shininess*/
 
 #version 410
 
@@ -20,6 +21,8 @@ uniform float specularExponent;
 uniform vec3 lightPosWorld;
 uniform float lightIntensity;
 
+float wrapLightingIntensity = 0.8f;
+
 void main()
 {
 	// Set up necessary values
@@ -37,6 +40,8 @@ void main()
 	vec4 albedoSample = texture(albedo, texCoord);
 	float specularSample = texture(specularIntensityMap, texCoord).r;
 
+	float wrapLightingFactor = clamp((dot(lightDir, normalize(worldNorm) + wrapLightingIntensity)) / (1 + wrapLightingIntensity), 0, 1);
+
 	// Render with a Normalised, Modified Blinn-Phong shader
 	float normFactor = (specularExponent + 8)/8;
 	colorOut = clamp(dot(lightDir, normalize(worldNorm)), 0, 1) *
@@ -44,6 +49,7 @@ void main()
 
 	// Adjust for lighting variables
 	colorOut *= lightIntensity;
+	colorOut *= wrapLightingFactor;
 	colorOut /= (lightDistance * lightDistance);
 	colorOut.a = 1;
 }

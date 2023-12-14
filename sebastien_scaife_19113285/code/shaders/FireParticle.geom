@@ -17,7 +17,7 @@ layout(std140) uniform cameraBlock
 	vec4 cameraDir;
 };
 
-const float flameParticleSize = 0.5;
+const float flameParticleSize = 0.25;
 
 out float flameTime;
 out vec2 texCoords;
@@ -25,7 +25,6 @@ out float texXOffset;
 
 void main()
 {
-	// Write your geometry shader here!
 	// This should generate a quad (4 vertices, forming a triangle_strip).
 	// Set the data for each vertex, then call EmitVertex() to add it to the strip.
 	// Call EndPrimitive() once you've added all 4 vertices.
