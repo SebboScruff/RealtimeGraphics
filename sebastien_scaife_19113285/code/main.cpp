@@ -42,6 +42,7 @@ float testSpecularExponent = -8.f;
 // Shadowmapping Settings
 const int shadowCubemapSize = 512; // resolution of shadow cubemap sections
 const float shadowMapNear = 0.5f, shadowMapFar = 100.f; // clipping planes for shadow mapping perspective
+const float shadowMapBias = 0.7f;
 Eigen::Matrix4f angleAxisMat4(float angle, const Eigen::Vector3f& axis)
 {
 	Eigen::Matrix4f output = Eigen::Matrix4f::Identity();
@@ -172,6 +173,7 @@ int main()
 		lightSphere.setCastsShadow(false);
 
 		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
+		floorMesh.setCastsShadow(false);
 
 		FireParticles fireParticles("fire");
 		fireParticles.drawMode(GL_POINTS);
@@ -224,7 +226,7 @@ int main()
 		// Floor
 		loadMesh(&floorMesh, assetsDirectory + "models/fromBlend/floor.obj");
 		floorMesh.modelToWorld(floorModelToWorld);
-		floorMesh.shaderProgram(&lambertShader);
+		floorMesh.shaderProgram(&shadowMappedShader);
 
 		// Sword
 		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
@@ -276,6 +278,18 @@ int main()
 			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), testSpecularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
 			glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
 			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
+		}
+		// Shadowmapping Uniform Set-up
+		{
+			glProgramUniform1f(shadowCubemapShader.get(), shadowCubemapShader.uniformLoc("nearPlane"), shadowMapNear);
+			glProgramUniform1f(shadowCubemapShader.get(), shadowCubemapShader.uniformLoc("farPlane"), shadowMapFar);
+			// ----
+			glProgramUniform1i(shadowMappedShader.get(), shadowMappedShader.uniformLoc("color"), 0); // NOTE: Albedo Maps bound to Image Unit 0
+			glProgramUniform1f(shadowMappedShader.get(), shadowMappedShader.uniformLoc("nearPlane"), shadowMapNear);
+			glProgramUniform1f(shadowMappedShader.get(), shadowMappedShader.uniformLoc("farPlane"), shadowMapFar);
+			glProgramUniform3f(shadowMappedShader.get(), shadowMappedShader.uniformLoc("lightPosWorld"), lightPosition.x(), lightPosition.y(), lightPosition.z());
+			glProgramUniform1i(shadowMappedShader.get(), shadowMappedShader.uniformLoc("shadowMap"), 3); // NOTE: Shadow Map bound to Image Unit 3
+			glProgramUniform1f(shadowMappedShader.get(), shadowMappedShader.uniformLoc("bias"), shadowMapBias);
 		}
 		// Fire Particle Shader Uniform Set-up
 		{
@@ -366,12 +380,33 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		// --Shadow Mapping--
+		GLuint shadowCubemapTexture;
+		glGenTextures(1, &shadowCubemapTexture);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, shadowCubemapTexture);
+		for (int face = 0; face < 6; face++) {
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL_DEPTH_COMPONENT, shadowCubemapSize, shadowCubemapSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		}
+		glTextureParameteri(shadowCubemapTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		// ----
+		Eigen::Matrix4f	shadowMapPerspective = perspective(M_PI_2, 1, shadowMapNear, shadowMapFar);
+		Eigen::Matrix4f flipMatrix; // used to make sure that all the shadows are the right way round
+		flipMatrix <<	-1, 0, 0, 0,
+						0, -1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1;
+		// ----
+		GLuint shadowCubemapFramebuffer;
+		glGenFramebuffers(1, &shadowCubemapFramebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowCubemapFramebuffer);
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadowCubemapFramebuffer, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// -- End of Texture Setup -- \\
 
 		// Enable any GL functions here:
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS); // enable seamless cubemaps so that the shadow cubemap doesnt have annoying lines in it
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// -- Input and controls -- \\
@@ -433,13 +468,45 @@ int main()
 			glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glDisable(GL_CULL_FACE);
+			//glDisable(GL_CULL_FACE);
 
 			// Set the time parameter for the fire particles before doing any rendering
 			// if something takes a really long time to render then the particles won't hang (hopefully)
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("time"), animationTimeSeconds);
 
 			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
+
+			// Shadow Mapping First, then regular renders.
+			glBindFramebuffer(GL_FRAMEBUFFER, shadowCubemapFramebuffer);
+
+			glDisable(GL_CULL_FACE);
+
+			glViewport(0, 0, shadowCubemapSize, shadowCubemapSize);
+
+			for (int face = 0; face < 6; ++face) {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, shadowCubemapTexture, 0);
+
+				glClear(GL_DEPTH_BUFFER_BIT);
+
+				Eigen::Matrix4f worldToClipMatrix;
+
+				worldToClipMatrix = flipMatrix * shadowMapPerspective * cubemapRotations[face] * makeTranslationMatrix(-lightPosition);
+
+				glProgramUniformMatrix4fv(shadowCubemapShader.get(), shadowCubemapShader.uniformLoc("shadowWorldToClip"), 1, false, worldToClipMatrix.data());
+
+				for (glhelper::Renderable* mesh : renderables) {
+					if (mesh->castsShadow()) {
+						mesh->render(shadowCubemapShader);
+					}
+				}
+			}
+
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			// ----
+			
+			// Regular Render Calls:
+			glViewport(0, 0, windowWidth, windowHeight);
+			glEnable(GL_CULL_FACE);
 
 			lightSphere.renderWithQuery();
 
@@ -449,7 +516,8 @@ int main()
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, floorAlbedo);
-
+			glActiveTexture(GL_TEXTURE0 + 3);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, shadowCubemapTexture);
 			floorMesh.renderWithQuery();
 
 			// ----
@@ -490,6 +558,7 @@ int main()
 			glActiveTexture(GL_TEXTURE0 + 1);
 			glBindTexture(GL_TEXTURE_2D, fireAlpha);
 			// Turn on GL Blend and turn off Depth Masking specifically for rendering the fire particles, then switch it all back to normal again.
+			glDisable(GL_CULL_FACE);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			glBlendEquation(GL_FUNC_ADD);
@@ -498,6 +567,7 @@ int main()
 
 			glDisable(GL_BLEND);
 			glDepthMask(GL_TRUE);
+			glEnable(GL_CULL_FACE);
 
 			// ----
 
@@ -531,20 +601,19 @@ int main()
 			}
 		}
 		// Clean up
-
+		glDeleteFramebuffers(1, &shadowCubemapFramebuffer);
+		glDeleteTextures(1, &shadowCubemapTexture);
+		// ----
 		glDeleteTextures(1, &swordAlbedo);
 		glDeleteTextures(1, &swordMetallic);
-		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
-
+		// ----
 		glDeleteTextures(1, &shieldAlbedo);
 		glDeleteTextures(1, &shieldMetallic);
-		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. METALLIC
-
+		// ----
 		glDeleteTextures(1, &logAlbedo);
-		// TODO DELETE ANY OTHER SWORD TEXTURES E.G. NORMAL
-
+		// ----
 		glDeleteTextures(1, &campfireAlbedo);
-		// TODO DELETE ANY OTHER CAMPFIRE TEXTURES E.G. PARTICLES
+		// ----
 		glDeleteTextures(1, &fireColour);
 		glDeleteTextures(1, &fireAlpha);
 	}

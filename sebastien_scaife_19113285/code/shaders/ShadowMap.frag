@@ -4,7 +4,7 @@ in vec3 fragPosWorld;
 
 uniform vec3 lightPosWorld;
 
-uniform vec4 color;
+// uniform vec4 color;
 uniform float nearPlane, farPlane;
 
 void main()
