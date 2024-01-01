@@ -21,6 +21,7 @@
 #include <gltext.h>
 #include <fstream>
 #include <iostream>
+#include <bullet/btBulletDynamicsCommon.h>
 
 
 // Global scope variables here, like Window Size and hardset framerate
@@ -149,9 +150,19 @@ int main()
 	glEnable(GL_MULTISAMPLE);
 
 	// Bullet Physics Setup:
-	{
-		// TODO
-	}
+	
+	// Set up Bullet World to allow for in-scene physics
+	std::unique_ptr<btDefaultCollisionConfiguration> collisionConfig = std::make_unique<btDefaultCollisionConfiguration>();
+	std::unique_ptr<btCollisionDispatcher> dispatcher = std::make_unique<btCollisionDispatcher>(collisionConfig.get());
+	std::unique_ptr<btBroadphaseInterface> overlappingPairCache = std::make_unique<btDbvtBroadphase>();
+	std::unique_ptr<btSequentialImpulseConstraintSolver> solver = std::make_unique<btSequentialImpulseConstraintSolver>();
+
+	std::unique_ptr<btDiscreteDynamicsWorld> world = std::make_unique<btDiscreteDynamicsWorld>(dispatcher.get(), overlappingPairCache.get(), solver.get(), collisionConfig.get());
+	// ----
+	world->setGravity(btVector3(0, -1, 0)); // set gravity to some arbitrary downwards vector
+
+	btAlignedObjectArray<btCollisionShape*> collisionShapes; // store all physics objects in this array!
+	// End of Basic Bullet Setup
 
 	// Everything runtime-related in here:
 	{
@@ -178,8 +189,12 @@ int main()
 		glhelper::Mesh lightSphere("light");
 		lightSphere.setCastsShadow(false);
 
+		// Defining all the meshes in the scene
 		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
-		floorMesh.setCastsShadow(false);
+		
+		// Additional Property Setup
+		// --Floor--
+		floorMesh.setCastsShadow(false); // The floor doesn't cast any shadows
 
 		FireParticles fireParticles("fire");
 		fireParticles.drawMode(GL_POINTS);
@@ -195,6 +210,14 @@ int main()
 
 		// Floor
 		Eigen::Matrix4f floorModelToWorld = Eigen::Matrix4f::Identity();
+		// Floor Physics
+		btBoxShape* floorPhysics = new btBoxShape(btVector3(5, 0.1, 5));
+		btRigidBody::btRigidBodyConstructionInfo floorRBInfo{ 0,0,floorPhysics };
+		btRigidBody* floorRB = new btRigidBody(floorRBInfo);
+		floorRB->setRestitution(1);
+		floorRB->setCollisionShape(floorPhysics);
+		floorRB->setWorldTransform(btTransform(btQuaternion(0,0,0), btVector3(0, 0, 0)));
+		world->addCollisionObject(floorRB);
 
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
@@ -453,7 +476,9 @@ int main()
 
 		while (!shouldQuit) {
 			Uint64 frameStartTime = SDL_GetTicks64(); // for capping framerate to the previously defined maximum
+
 			float animationTimeSeconds = 1e-6f * (float)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
+			world->stepSimulation((desiredFrameTime / 1000.f), 10);
 
 			viewer.update();
 
