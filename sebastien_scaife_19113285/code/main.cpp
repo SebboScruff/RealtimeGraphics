@@ -190,18 +190,18 @@ int main()
 		lightSphere.setCastsShadow(false);
 
 		// Defining all the meshes in the scene
-		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), campfireBaseMesh("campfireBase");
+		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), physicsLogMesh("fallingLog"), campfireBaseMesh("campfireBase");
 		
 		// Additional Property Setup
 		// --Floor--
 		floorMesh.setCastsShadow(false); // The floor doesn't cast any shadows
 
 		FireParticles fireParticles("fire");
-		fireParticles.drawMode(GL_POINTS);
-		fireParticles.setCastsShadow(false);
+		fireParticles.drawMode(GL_POINTS); // The fire is in Draw Mode: Points to allow the geometry shader to function
+		fireParticles.setCastsShadow(false); // The fire doesn't cast any shadows
 
-		// for writing GL Queries
-		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &campfireBaseMesh, &fireParticles };
+		// stored in a list to make writing GL Queries easier
+		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &physicsLogMesh, &campfireBaseMesh, &fireParticles };
 
 		// -- Translation Matrix Set-up -- \\
 
@@ -243,6 +243,28 @@ int main()
 		Eigen::Matrix4f seat1ModelToWorld = Eigen::Matrix4f::Identity();
 
 		Eigen::Matrix4f seat2ModelToWorld = Eigen::Matrix4f::Identity();
+
+		// Falling Log
+		Eigen::Matrix4f fallingLogModelToWorld = Eigen::Matrix4f::Identity();
+		fallingLogModelToWorld *= makeScaleMatrix(1.5f);
+		fallingLogModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(0.f, 4.f, 4.f));
+		// Falling Log Physics
+		btCylinderShape* fallingLogPhysics = new btCylinderShape(btVector3(0.5f, 0.f, 0.5f));
+
+		btTransform fallingLogPhysTran;
+		fallingLogPhysTran.setOrigin(btVector3(0.f, 4.f, 4.f));
+
+		btDefaultMotionState* logMS = new btDefaultMotionState(fallingLogPhysTran);
+		btRigidBody::btRigidBodyConstructionInfo fallingLogInfo{ 1, logMS, fallingLogPhysics };
+		btRigidBody* fallingLogRB = new btRigidBody(fallingLogInfo);
+
+		fallingLogRB->setRestitution(0);
+		fallingLogRB->setCollisionShape(fallingLogPhysics);
+		fallingLogRB->setWorldTransform(btTransform(btQuaternion(0, 0, 0), btVector3(0.f, 4.f, 4.f)));
+		fallingLogRB->setActivationState(DISABLE_DEACTIVATION);
+		world->addRigidBody(fallingLogRB);
+
+
 		// -- End of Translation Matrix Set-up -- \\
 
 
@@ -275,6 +297,11 @@ int main()
 		loadMesh(&logSeatMesh2, assetsDirectory + "models/fromBlend/logSeat2.obj");
 		logSeatMesh2.modelToWorld(seat2ModelToWorld);
 		logSeatMesh2.shaderProgram(&normalMapShader);
+
+		// Falling Log
+		loadMesh(&physicsLogMesh, assetsDirectory + "models/logSeat.obj");
+		physicsLogMesh.modelToWorld(fallingLogModelToWorld);
+		physicsLogMesh.shaderProgram(&normalMapShader);
 
 		// Campfire Base
 		loadMesh(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
@@ -430,7 +457,9 @@ int main()
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadowCubemapFramebuffer, 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		// --Post Processing Setup--
+		// ----
+		
+		// Post Processing Setup
 		GLuint ppFramebuffer, ppColor, ppRenderbuffer;
 		glGenFramebuffers(1, &ppFramebuffer);
 		glGenTextures(1, &ppColor);
@@ -445,12 +474,14 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, windowWidth, windowHeight);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, ppRenderbuffer);
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, ppColor, ppFramebuffer);
+		// Probably want to run glCheckFramebufferStatus(ppFramebuffer) here just in case.
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0); 
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		// ----
 
+		// ----
 
 		// -- End of Texture Setup -- \\
 
@@ -479,6 +510,12 @@ int main()
 
 			float animationTimeSeconds = 1e-6f * (float)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
 			world->stepSimulation((desiredFrameTime / 1000.f), 10);
+
+			// TODO This is where any physics objects will have their meshes moved!
+			btTransform fallingLogTran;
+			fallingLogRB->getMotionState()->getWorldTransform(fallingLogTran);
+			btVector3 fallingLogPos = fallingLogTran.getOrigin();
+			physicsLogMesh.modelToWorld(makeTranslationMatrix(Eigen::Vector3f(fallingLogPos.x(), fallingLogPos.y(), fallingLogPos.z())));
 
 			viewer.update();
 
@@ -556,6 +593,9 @@ int main()
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			// ----
+			// TODO For Post Processing, run glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer) to do 
+			// regular renders to the post-process framebuffer, which should (hopefully) give me a 
+			// 2D render of the scene stored in the ppColor texture file.
 			
 			// Regular Render Calls:
 
@@ -601,6 +641,7 @@ int main()
 
 			logSeatMesh1.renderWithQuery();
 			logSeatMesh2.renderWithQuery();
+			physicsLogMesh.renderWithQuery();
 
 			// ----
 
