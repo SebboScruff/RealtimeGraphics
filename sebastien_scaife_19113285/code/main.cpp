@@ -38,7 +38,8 @@ float lightTheta = 0.0f;
 Eigen::Vector3f lightPosition(0.f, 10.f, 0.f);
 float lightIntensity = 60.f;
 float testSpecularExponent = -8.f;
-// TODO Probably extract these out and turn them into a 'Light' Class, so that it's easier to read
+// [TODO Probably extract those out and turn them into a 'Light' Class, so that it's easier to read]
+// 
 // Shadowmapping Settings
 const int shadowCubemapSize = 512; // resolution of shadow cubemap sections
 const float shadowMapNear = 0.5f, shadowMapFar = 100.f; // clipping planes for shadow mapping perspective
@@ -146,6 +147,11 @@ int main()
 	gltInit();
 
 	glEnable(GL_MULTISAMPLE);
+
+	// Bullet Physics Setup:
+	{
+		// TODO
+	}
 
 	// Everything runtime-related in here:
 	{
@@ -401,6 +407,28 @@ int main()
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadowCubemapFramebuffer, 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+		// --Post Processing Setup--
+		GLuint ppFramebuffer, ppColor, ppRenderbuffer;
+		glGenFramebuffers(1, &ppFramebuffer);
+		glGenTextures(1, &ppColor);
+		glGenRenderbuffers(1, &ppRenderbuffer);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer);
+		glBindTexture(GL_TEXTURE_2D, ppColor);
+		glBindRenderbuffer(GL_RENDERBUFFER, ppRenderbuffer);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, windowWidth, windowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, windowWidth, windowHeight);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, ppRenderbuffer);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0); 
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		// ----
+
+
 		// -- End of Texture Setup -- \\
 
 		// Enable any GL functions here:
@@ -505,6 +533,9 @@ int main()
 			// ----
 			
 			// Regular Render Calls:
+
+			//glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer);
+
 			glViewport(0, 0, windowWidth, windowHeight);
 			glEnable(GL_CULL_FACE);
 
@@ -571,7 +602,9 @@ int main()
 
 			// ----
 
-			// TODO Chromatic Abberation Post-Process here?
+			// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			// Post-Processing Steps:
+			// 
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
@@ -617,6 +650,10 @@ int main()
 		// ----
 		glDeleteTextures(1, &fireColour);
 		glDeleteTextures(1, &fireAlpha);
+		// ---- 
+		glDeleteFramebuffers(1, &ppFramebuffer);
+		glDeleteTextures(1, &ppColor);
+		glDeleteRenderbuffers(1, &ppRenderbuffer);
 	}
 
 

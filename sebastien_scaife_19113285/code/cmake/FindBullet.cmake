@@ -4,6 +4,7 @@ find_path(Bullet_INCLUDE_DIR
         ${PROJECT_SOURCE_DIR}/3rdParty/Bullet3.25/include
         ${PROJECT_SOURCE_DIR}/../3rdParty/Bullet3.25/include
         ${PROJECT_SOURCE_DIR}/../../3rdParty/Bullet3.25/include
+        ${PROJECT_SOURCE_DIR}/../bin/3rdParty/Bullet3.25/include
 )
 
 set(Bullet_LIBRARIES)
@@ -16,6 +17,7 @@ function(find_bullet_library name)
             ${PROJECT_SOURCE_DIR}/3rdParty/Bullet3.25/lib
             ${PROJECT_SOURCE_DIR}/../3rdParty/Bullet3.25/lib
             ${PROJECT_SOURCE_DIR}/../../3rdParty/Bullet3.25/lib
+            ${PROJECT_SOURCE_DIR}/../bin/3rdParty/Bullet3.25/lib
     )
     find_library(Bullet_${name}_LIBRARY_DEBUG
             ${name}_Debug
@@ -23,6 +25,7 @@ function(find_bullet_library name)
             ${PROJECT_SOURCE_DIR}/3rdParty/Bullet3.25/lib
             ${PROJECT_SOURCE_DIR}/../3rdParty/Bullet3.25/lib
             ${PROJECT_SOURCE_DIR}/../../3rdParty/Bullet3.25/lib
+            ${PROJECT_SOURCE_DIR}/../bin/3rdParty/Bullet3.25/lib
     )
     list(APPEND Bullet_LIBRARIES ${Bullet_${name}_LIBRARY})
     set(Bullet_LIBRARIES ${Bullet_LIBRARIES} PARENT_SCOPE)
