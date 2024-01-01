@@ -571,6 +571,7 @@ int main()
 
 			// ----
 
+			// TODO Chromatic Abberation Post-Process here?
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
