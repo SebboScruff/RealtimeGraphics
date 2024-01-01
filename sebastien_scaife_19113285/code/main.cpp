@@ -16,6 +16,7 @@
 #include "assimp/scene.h"
 #include <opencv2/opencv.hpp>
 #include <SebScaifeCMP7172/NoiseMap.h>
+#include <SebScaifeCMP7172/BulletHelper.h>
 #include <SebScaifeCMP7172/FireParticles.h>
 #define GLT_IMPLEMENTATION
 #include <gltext.h>
@@ -36,7 +37,7 @@ const std::string queryOutDirectory = "../../bin/Profiling/";
 
 // Main lighting settings here:
 float lightTheta = 0.0f;
-Eigen::Vector3f lightPosition(0.f, 10.f, 0.f);
+Eigen::Vector3f lightPosition(0.f, 10.f, -4.f);
 float lightIntensity = 60.f;
 float testSpecularExponent = -8.f;
 // [TODO Probably extract those out and turn them into a 'Light' Class, so that it's easier to read]
@@ -67,6 +68,7 @@ const std::array<Eigen::Matrix4f, 6> cubemapRotations{
 int currentRenderMode = 0;
 
 NoiseMap noiseMapMaster; // Noisemap Generator for helping with the Watercolor Shader
+BulletHelper btHelper; // Contains a few helper functions relating to Bullet and Physics
 
 void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 {
@@ -152,6 +154,7 @@ int main()
 	// Bullet Physics Setup:
 	
 	// Set up Bullet World to allow for in-scene physics
+	// TODO This could probably be extracted into a btHelper.InitialiseWorld function or something if I have time
 	std::unique_ptr<btDefaultCollisionConfiguration> collisionConfig = std::make_unique<btDefaultCollisionConfiguration>();
 	std::unique_ptr<btCollisionDispatcher> dispatcher = std::make_unique<btCollisionDispatcher>(collisionConfig.get());
 	std::unique_ptr<btBroadphaseInterface> overlappingPairCache = std::make_unique<btDbvtBroadphase>();
@@ -168,7 +171,6 @@ int main()
 	{
 		// Profiling and Querying Set Up implemented into glhelper::Renderable.hpp and glhelper::Renderable.cpp
 
-		// TODO Define remaining Shader Programs
 		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // mainly for checking that meshes are loaded correctly, delete this eventually
 		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // plain white to signify where the light in the scene is
 		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // Flat Lambert Shader, mainly for checking that textures are loaded correctly
@@ -176,18 +178,19 @@ int main()
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects
 		glhelper::ShaderProgram shadowCubemapShader({"../shaders/ShadowMap.vert", "../shaders/ShadowMap.frag"}); // Shadow Cubemap Shader for storing depth values
 		glhelper::ShaderProgram shadowMappedShader({"../shaders/ShadowMappedSurface.vert", "../shaders/ShadowMappedSurface.frag"}); // Shader that uses the shadowcast cubemap to darken areas that should be in shadow
-		//glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // Independantly researched and implemented Stylised Shader
+		//glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // Independently researched Stylised Shader
 		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
+		// Some initial positioning for the camera so it doesnt spawn in the middle of the floor.
 		viewer.position(Eigen::Vector3f(-8.3f, -1.0f, 3.f));
 		viewer.rotation(4.49f, 0.05f);
 
-		// Define all necessary meshes
-		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so that it is easy to write out Render Queries en masse
+		// Define all meshes
+		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so it's easier to write out Render Queries en masse
 		glhelper::Mesh lightSphere("light");
-		lightSphere.setCastsShadow(false);
+		lightSphere.setCastsShadow(false); // the light visualiser doesnt want to cast a shadow
 
 		// Defining all the meshes in the scene
 		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), physicsLogMesh("fallingLog"), campfireBaseMesh("campfireBase");
@@ -200,7 +203,7 @@ int main()
 		fireParticles.drawMode(GL_POINTS); // The fire is in Draw Mode: Points to allow the geometry shader to function
 		fireParticles.setCastsShadow(false); // The fire doesn't cast any shadows
 
-		// stored in a list to make writing GL Queries easier
+		// fill up the renderables list with all the meshes
 		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &physicsLogMesh, &campfireBaseMesh, &fireParticles };
 
 		// -- Translation Matrix Set-up -- \\
@@ -211,13 +214,7 @@ int main()
 		// Floor
 		Eigen::Matrix4f floorModelToWorld = Eigen::Matrix4f::Identity();
 		// Floor Physics
-		btBoxShape* floorPhysics = new btBoxShape(btVector3(5, 0.1, 5));
-		btRigidBody::btRigidBodyConstructionInfo floorRBInfo{ 0,0,floorPhysics };
-		btRigidBody* floorRB = new btRigidBody(floorRBInfo);
-		floorRB->setRestitution(1);
-		floorRB->setCollisionShape(floorPhysics);
-		floorRB->setWorldTransform(btTransform(btQuaternion(0,0,0), btVector3(0, 0, 0)));
-		world->addCollisionObject(floorRB);
+		btHelper.AddBoxShape(collisionShapes, world.get(), Eigen::Vector3f(0,0,1.f), Eigen::Vector3f(8.5f, 0.25f, 8.5f), 0, 1, btVector3(0,0,0));
 
 		// Sword
 		Eigen::Matrix4f swordModelToWorld = Eigen::Matrix4f::Identity();
@@ -246,24 +243,9 @@ int main()
 
 		// Falling Log
 		Eigen::Matrix4f fallingLogModelToWorld = Eigen::Matrix4f::Identity();
-		fallingLogModelToWorld *= makeScaleMatrix(1.5f);
-		fallingLogModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(0.f, 4.f, 4.f));
+		auto fallingLogScale = makeScaleMatrix(1.f, 2.f, 1.f) * 0.5f;
 		// Falling Log Physics
-		btCylinderShape* fallingLogPhysics = new btCylinderShape(btVector3(0.5f, 0.f, 0.5f));
-
-		btTransform fallingLogPhysTran;
-		fallingLogPhysTran.setOrigin(btVector3(0.f, 4.f, 4.f));
-
-		btDefaultMotionState* logMS = new btDefaultMotionState(fallingLogPhysTran);
-		btRigidBody::btRigidBodyConstructionInfo fallingLogInfo{ 1, logMS, fallingLogPhysics };
-		btRigidBody* fallingLogRB = new btRigidBody(fallingLogInfo);
-
-		fallingLogRB->setRestitution(0);
-		fallingLogRB->setCollisionShape(fallingLogPhysics);
-		fallingLogRB->setWorldTransform(btTransform(btQuaternion(0, 0, 0), btVector3(0.f, 4.f, 4.f)));
-		fallingLogRB->setActivationState(DISABLE_DEACTIVATION);
-		world->addRigidBody(fallingLogRB);
-
+		btHelper.AddCylinderShape(collisionShapes, world.get(), Eigen::Vector3f(0, 4.f, 4.f), Eigen::Vector3f(1.f, 2.f, 1.f), 1, 0.5, btVector3(65,50,32));
 
 		// -- End of Translation Matrix Set-up -- \\
 
@@ -502,7 +484,7 @@ int main()
 		noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
 
 		// mark the time with a stopwatch to enable flame particle animations - this is not used for any render queries or anything that is
-		// actually time-sensitive, it's just used for measuring time passed in-application.
+		// actually time-sensitive, it's just used for measuring time passed in-application, so a steady clock is fine.
 		auto startTime = std::chrono::steady_clock::now();
 
 		while (!shouldQuit) {
@@ -512,13 +494,13 @@ int main()
 			world->stepSimulation((desiredFrameTime / 1000.f), 10);
 
 			// TODO This is where any physics objects will have their meshes moved!
-			btTransform fallingLogTran;
-			fallingLogRB->getMotionState()->getWorldTransform(fallingLogTran);
-			btVector3 fallingLogPos = fallingLogTran.getOrigin();
-			physicsLogMesh.modelToWorld(makeTranslationMatrix(Eigen::Vector3f(fallingLogPos.x(), fallingLogPos.y(), fallingLogPos.z())));
+			// ----
+			btCollisionObject* fallingLogObj = world->getCollisionObjectArray()[1];
+			btRigidBody* fallingLogRB = btRigidBody::upcast(fallingLogObj);
+			physicsLogMesh.modelToWorld(btHelper.getRigidBodyTransform(world.get(), 1) * fallingLogScale);
 
 			viewer.update();
-
+			
 			while (SDL_PollEvent(&event)) {
 				if (event.type == SDL_QUIT) { // SDL_QUIT is either closing the window or Alt+F4-ing
 					shouldQuit = true; // break out of the application at the end of this frame
@@ -720,6 +702,11 @@ int main()
 		glDeleteFramebuffers(1, &ppFramebuffer);
 		glDeleteTextures(1, &ppColor);
 		glDeleteRenderbuffers(1, &ppRenderbuffer);
+
+		// Bullet Cleanup
+		for (int i = 0; i < collisionShapes.size(); ++i) {
+			delete collisionShapes[i];
+		}
 	}
 
 

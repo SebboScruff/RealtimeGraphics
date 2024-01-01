@@ -1,1 +1,1 @@
-add_library(SebScaifeCMP7172 Skybox.cpp Skybox.hpp NoiseMap.cpp NoiseMap.h OpenSimplexNoise.cpp OpenSimplexNoise.h FireParticles.cpp FireParticles.h)
+add_library(SebScaifeCMP7172 Skybox.cpp Skybox.hpp NoiseMap.cpp NoiseMap.h OpenSimplexNoise.cpp OpenSimplexNoise.h FireParticles.cpp FireParticles.h BulletHelper.cpp BulletHelper.h)
