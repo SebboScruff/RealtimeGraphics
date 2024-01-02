@@ -17,7 +17,6 @@ vec2 fragPosScreen;
 in vec2 texCoord;
 
 out vec4 colorOut;
-uniform vec4 color;
 uniform vec3 lightPosWorld;
 	
 void main()
@@ -33,7 +32,6 @@ void main()
 	colorOut.xyz = albedo;
 	colorOut *= lighting;
 	colorOut.a = 1.0;
-	// NOTE: Leaving colorOut as it is here is a basic Cel-Shader
 
 	// Stage 2: Colour Abstraction is done in PostProcessing.frag!
 }

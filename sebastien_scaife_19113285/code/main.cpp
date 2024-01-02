@@ -151,7 +151,11 @@ int main()
 	if (result != GLEW_OK) {
 		throw std::runtime_error("GLEW couldn't initialize.");
 	}
+
+	// GL Text Initialisation & Set Up
 	gltInit();
+	//GLTtext* text = gltCreateText();
+	//gltSetText(text, "Post-Processing: Off. Press 1 and 2 to Toggle Render Modes.");
 
 	glEnable(GL_MULTISAMPLE);
 
@@ -356,7 +360,9 @@ int main()
 		}
 		// TODO Watercolour Shader Uniform Set-up:
 		{
-
+			glProgramUniform1i(watercolourShader.get(), postProcessingShader.uniformLoc("albedo"), 0);	// NOTE: Albedo bound to Image Unit 0
+			glProgramUniform1i(watercolourShader.get(), postProcessingShader.uniformLoc("lightingTexture"), 4);	// NOTE: Cel Shading Reference Texture bound to Image Unit 4
+			glProgramUniform3f(watercolourShader.get(), watercolourShader.uniformLoc("lightPosWorld"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // Pass in Light Position so that Cel Shading works
 		}
 
 		// -- End of Shader Uniform Setup -- \\
@@ -478,9 +484,20 @@ int main()
 		// ----
 
 		// Watercolour Noisemap Texture Setup
+		cv::Mat celTexImg = cv::imread(assetsDirectory + "textures/wcRefs/celShadeRef.png"); // the 1D Cel-Shader reference texture
+		cv::cvtColor(celTexImg, celTexImg, cv::COLOR_BGR2GRAY);
+		GLuint celRefTex;
+		glGenTextures(1, &celRefTex);
+		glBindTexture(GL_TEXTURE_1D, celRefTex);
+		glTexImage1D(GL_TEXTURE_1D, 0, GL_R8, celTexImg.cols, 0, GL_RED, GL_UNSIGNED_BYTE, celTexImg.data);
+		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+
+		// ----
+
 		GLuint gaussTex, simplexTex;
 
-		cv::Mat gaussMap = noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 10, 0, 180, true);
+		cv::Mat gaussMap = noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 5, 0, 180, true);
 		glGenTextures(1, &gaussTex);
 		SetUpTexture(gaussMap, gaussTex);
 
@@ -530,6 +547,7 @@ int main()
 						switch (event.key.keysym.sym) {
 							case(SDLK_1):
 								// Change to Render Mode 1 i.e. standard rendering
+								//gltSetText(text, "Post-Processing: Off. Press 1 and 2 to Toggle Render Modes.");
 								currentRenderMode = 1;
 
 								// Change back to regular shader programs for in-scene objects: 
@@ -547,6 +565,7 @@ int main()
 
 							case (SDLK_2):
 								// Change to Render Mode 2 i.e. Watercolour Shader rendering
+								//gltSetText(text, "Post-Processing: On. Press 1 and 2 to Toggle Render Modes.");
 								currentRenderMode = 2;
 								// Sword, Shield, Log Seats, and Campfire Base change to a Cel Shader for Light Abstraction
 								swordMesh.shaderProgram(&watercolourShader);
@@ -636,6 +655,15 @@ int main()
 			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
 			// This might also be extracted out into a separate function e.g. BindTexsAndRender()
 
+			if (currentRenderMode == 2) {	// If currently using Watercolour Rendering, set the Cel Shading Reference to Image Unit 4
+				glActiveTexture(GL_TEXTURE0 + 4);
+				glBindTexture(GL_TEXTURE_1D, celRefTex);
+			}
+			else {							// Otherwise, unbind Image Unit 4 and empty it out
+				glActiveTexture(GL_TEXTURE0 + 4);
+				glBindTexture(GL_TEXTURE_1D, 0);
+			}
+
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, floorAlbedo);
 			glActiveTexture(GL_TEXTURE0 + 3);
@@ -700,7 +728,7 @@ int main()
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, ppColor);
 			glActiveTexture(GL_TEXTURE0 + 1);
-			glBindTexture(GL_TEXTURE_2D, gaussTex	);
+			glBindTexture(GL_TEXTURE_2D, gaussTex);
 			glActiveTexture(GL_TEXTURE0 + 2);
 			glBindTexture(GL_TEXTURE_2D, simplexTex);
 
@@ -745,11 +773,11 @@ int main()
 			ppQuad.shaderProgram(&postProcessingShader);
 			ppQuad.render();
 
-			// If rendering text, do it here 0 e.g. 
-			// gltBeginDraw();
-			// gltColor(1.f, 1.f, 1.f, 1.f);
-			// gltDrawText2D(text, 10.f, 10.f, 1.f);
-			// gltEndDraw();
+			// Text Rendering 
+			/*gltBeginDraw();
+			gltColor(1.f, 1.f, 1.f, 1.f);
+			gltDrawText2D(text, 10.f, 10.f, 1.f);
+			gltEndDraw();*/
 
 			// -- End of Texture Binding, Rendering and Draw Calls -- \\
 
@@ -796,6 +824,7 @@ int main()
 		// ----
 		glDeleteTextures(1, &gaussTex);
 		glDeleteTextures(1, &simplexTex);
+		glDeleteTextures(1, &celRefTex);
 
 		// Bullet Cleanup
 		for (int i = 0; i < collisionShapes.size(); ++i) {
@@ -803,7 +832,7 @@ int main()
 		}
 	}
 
-
+	//gltDeleteText(text);
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

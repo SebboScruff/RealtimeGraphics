@@ -52,7 +52,7 @@ void main()
 			vec4 pigmentDispersionPass = BousseauColorMod(originalColour, dGauss);
 			vec4 turbulentFlowPass = BousseauColorMod(pigmentDispersionPass, dSimplex);
 
-			colorOut = turbulentFlowPass;
+			colorOut = texture(simplex, texCoord);
 			break;
 
 		default:
