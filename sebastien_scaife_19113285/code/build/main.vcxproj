@@ -336,6 +336,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\LambertWithNormal.vert">
     </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\PostProcessing.frag">
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\PostProcessing.vert">
+    </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMap.frag">
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMap.vert">
@@ -343,10 +347,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMappedSurface.frag">
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMappedSurface.vert">
-    </None>
-    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Skybox.frag">
-    </None>
-    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Skybox.vert">
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Watercolour.frag">
     </None>

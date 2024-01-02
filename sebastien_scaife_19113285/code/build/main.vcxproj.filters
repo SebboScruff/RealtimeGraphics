@@ -42,6 +42,12 @@
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\LambertWithNormal.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\PostProcessing.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\PostProcessing.vert">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMap.frag">
       <Filter>Shaders</Filter>
     </None>
@@ -52,12 +58,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\ShadowMappedSurface.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Skybox.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Skybox.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\shaders\Watercolour.frag">

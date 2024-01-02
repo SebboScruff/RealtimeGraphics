@@ -28,18 +28,20 @@
 // Global scope variables here, like Window Size and hardset framerate
 const int windowWidth = 800, windowHeight = 600;
 
-const Uint64 desiredFrameTime = 30;
-int frameCounter = 0;
-int renderIteration = 1;
+const Uint64 desiredFrameTime = 30; // hardset to 30 fps
+int frameCounter = 0; // only run profiling on every N frames, to save processing power
+int renderIteration = 1; // used in dividing up the csv profiling for ease of reading
 
 const std::string assetsDirectory = "../../bin/Assets/";
 const std::string queryOutDirectory = "../../bin/Profiling/";
 
 // Main lighting settings here:
-float lightTheta = 0.0f;
+// NOTE: Lighting directions etc. are done locally to each fragment in shaders where appropriate
+// float lightTheta = 0.0f; // would be used to move a light around a circular dolly path
 Eigen::Vector3f lightPosition(0.f, 10.f, -4.f);
 float lightIntensity = 60.f;
-float testSpecularExponent = -8.f;
+float specularExponent = -8.f;
+
 // [TODO Probably extract those out and turn them into a 'Light' Class, so that it's easier to read]
 // 
 // Shadowmapping Settings
@@ -61,15 +63,15 @@ const std::array<Eigen::Matrix4f, 6> cubemapRotations{
 			Eigen::Matrix4f::Identity()                           //NEGATIVE_Z - unchanged
 }; // pre-defined rotation matrices for each face of a cube
 
-// NOTE: Lighting directions etc. are done locally to each face in shaders where appropriate
-
-// This will eventually control which rendering style is being used:
-// 0 = non-stylised/realistic, 1 = watercolor-style artistic shading
-int currentRenderMode = 0;
+// This controls which rendering style is being used:
+// 1 = non-stylised/realistic, 2 = with post-processing
+// Most of the Independently Researched Watercolour Rendering Style is done through post-processing!
+int currentRenderMode = 1;
 
 NoiseMap noiseMapMaster; // Noisemap Generator for helping with the Watercolor Shader
 BulletHelper btHelper; // Contains a few helper functions relating to Bullet and Physics
 
+// external file -> in-scene mesh function
 void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 {
 	Assimp::Importer importer;
@@ -99,19 +101,21 @@ void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 	mesh->tex(uvs);
 }
 
+// Used in profiling, to say how long was taken to render each object in a csv format
 void WriteTimeQuery(float _timeMilli, std::string _queriedObjName, std::ofstream& _file)
 {
 	std::string timeMSStr = std::to_string(_timeMilli);
 	_file << "Time taken for " << _queriedObjName << ", " << timeMSStr << "ms \n";
 }
 
+// Every project needs a handy-dandy degrees to radians converter
 float DegToRad(float _deg)
 {
 	float rad = _deg * (M_PI / 180);
 	return rad;
 }
 
-// This is being kept here for now, TODO eventually extract this out into its own class
+// OpenCV Material -> GL Texture function 
 void SetUpTexture(cv::Mat _textureSource, GLuint _texture)
 {
 	glBindTexture(GL_TEXTURE_2D, _texture);
@@ -178,8 +182,9 @@ int main()
 		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects
 		glhelper::ShaderProgram shadowCubemapShader({"../shaders/ShadowMap.vert", "../shaders/ShadowMap.frag"}); // Shadow Cubemap Shader for storing depth values
 		glhelper::ShaderProgram shadowMappedShader({"../shaders/ShadowMappedSurface.vert", "../shaders/ShadowMappedSurface.frag"}); // Shader that uses the shadowcast cubemap to darken areas that should be in shadow
-		//glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // Independently researched Stylised Shader
+		glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // This will handle the light abstraction stage (effectively Cel-Shading) for the Watercolour Renderer
 		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles
+		glhelper::ShaderProgram postProcessingShader({ "../shaders/PostProcessing.vert", "../shaders/PostProcessing.frag" }); // Post-Processing Shader which handles the colour abstraction for the Watercolour Renderer
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
@@ -302,7 +307,7 @@ int main()
 
 		glProgramUniform1i(lambertShader.get(), lambertShader.uniformLoc("albedo"), 0);
 
-		// TODO Normal Map Uniform Set-up:
+		// Normal Map Uniform Set-up:
 		{
 			glProgramUniform1i(normalMapShader.get(), normalMapShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
 			glProgramUniform1i(normalMapShader.get(), normalMapShader.uniformLoc("normalMap"), 2); // NOTE: Normal Maps bound to Image Unit 2
@@ -313,7 +318,7 @@ int main()
 		{
 			glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("albedo"), 0); // NOTE: Albedo Maps bound to Image Unit 0
 			glProgramUniform1i(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularIntensity"), 1); // NOTE: Metallic Maps bound to Image Unit 1
-			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), testSpecularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
+			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("specularExponent"), specularExponent); // Kinda just an arbitrary value for now, feel free to tweak (or set on a per-model basis)
 			glProgramUniform3f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightPos"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // this will need to be updated if i ever move the light
 			glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
 		}
@@ -341,6 +346,13 @@ int main()
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("texWindowSize"), fireParticles.GetTexWindowSize());
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("flameFadeoutStart"), fireParticles.GetFadeoutStart());
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("flameFadeinEnd"), fireParticles.GetFadeinEnd());
+		}
+		// Post-Processing Uniform Setup
+		{
+			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
+			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("albedo"), 0); // NOTE: Albedo bound to Image Unit 0
+			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("gauss"), 1); // NOTE: Gaussian Map bound to Image Unit 1
+			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("simplex"), 2); // NOTE: Simplex Map bound to Image Unit 2
 		}
 		// TODO Watercolour Shader Uniform Set-up:
 		{
@@ -455,15 +467,26 @@ int main()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, windowWidth, windowHeight);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ppColor, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, ppRenderbuffer);
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, ppColor, ppFramebuffer);
-		// Probably want to run glCheckFramebufferStatus(ppFramebuffer) here just in case.
+		// NOTE: glCheckFramebufferStatus is run before render calls to ensure this is all loaded correctly
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0); 
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 		// ----
+
+		// Watercolour Noisemap Texture Setup
+		GLuint gaussTex, simplexTex;
+
+		cv::Mat gaussMap = noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 10, 0, 180, true);
+		glGenTextures(1, &gaussTex);
+		SetUpTexture(gaussMap, gaussTex);
+
+		cv::Mat simplexMap = noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
+		glGenTextures(1, &simplexTex);
+		SetUpTexture(simplexMap, simplexTex);
 
 		// -- End of Texture Setup -- \\
 
@@ -475,13 +498,10 @@ int main()
 
 		// -- Input and controls -- \\
 
-		bool shouldQuit = false;
-		SDL_Event event;
-
 		std::ofstream profilerOut(queryOutDirectory + "profiling.csv");
 
-		noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 4, 0, 180, true);
-		noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
+		bool shouldQuit = false;
+		SDL_Event event;
 
 		// mark the time with a stopwatch to enable flame particle animations - this is not used for any render queries or anything that is
 		// actually time-sensitive, it's just used for measuring time passed in-application, so a steady clock is fine.
@@ -502,38 +522,52 @@ int main()
 			viewer.update();
 			
 			while (SDL_PollEvent(&event)) {
-				if (event.type == SDL_QUIT) { // SDL_QUIT is either closing the window or Alt+F4-ing
-					shouldQuit = true; // break out of the application at the end of this frame
-				}
-				else {
-					viewer.processEvent(event);
-				}
+				switch (event.type) {
+					case(SDL_QUIT):
+						shouldQuit = true;
+						break;
+					case (SDL_KEYDOWN):
+						switch (event.key.keysym.sym) {
+							case(SDLK_1):
+								// Change to Render Mode 1 i.e. standard rendering
+								currentRenderMode = 1;
 
-				if (event.type == SDL_KEYDOWN) {
-					// Change rendering style using number commands
-					if (event.key.keysym.sym == SDLK_1) {
-						// Standard photorealism
+								// Change back to regular shader programs for in-scene objects: 
+								swordMesh.shaderProgram(&blinnPhongShader);
+								shieldMesh.shaderProgram(&blinnPhongShader);
+								logSeatMesh1.shaderProgram(&normalMapShader);
+								logSeatMesh1.shaderProgram(&normalMapShader);
+								logSeatMesh2.shaderProgram(&normalMapShader);
+								physicsLogMesh.shaderProgram(&normalMapShader);
+								campfireBaseMesh.shaderProgram(&lambertShader);
 
-						// Sword and shield use Blinn-Phong
-						// Floor, Logs, Trees use Lambert with Normalmaps
-					}
-					else if (event.key.keysym.sym == SDLK_2) {
-						//  TODO Watercolor custom renderer
+								// Also change the post-process uniform!
+								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
+								break;
 
-						// Everything uses Watercolor shader
-					}
-					else if (event.key.keysym.sym == SDLK_UP) {
-						// Controls for debugging/setting correct material properties
-						lightIntensity += 1.f;
-						std::cout << "Light Intensity = " << lightIntensity << std::endl;
-						glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
-					}
-					else if (event.key.keysym.sym == SDLK_DOWN) {
-						// Controls for debugging/setting correct material properties
-						lightIntensity -= 1.f;
-						std::cout << "Light Intensity = " << lightIntensity << std::endl;
-						glProgramUniform1f(blinnPhongShader.get(), blinnPhongShader.uniformLoc("lightIntensity"), lightIntensity);
-					}
+							case (SDLK_2):
+								// Change to Render Mode 2 i.e. Watercolour Shader rendering
+								currentRenderMode = 2;
+								// Sword, Shield, Log Seats, and Campfire Base change to a Cel Shader for Light Abstraction
+								swordMesh.shaderProgram(&watercolourShader);
+								shieldMesh.shaderProgram(&watercolourShader);
+								logSeatMesh1.shaderProgram(&watercolourShader);
+								logSeatMesh1.shaderProgram(&watercolourShader);
+								logSeatMesh2.shaderProgram(&watercolourShader);
+								physicsLogMesh.shaderProgram(&watercolourShader);
+								campfireBaseMesh.shaderProgram(&watercolourShader);
+
+								// Turn on Post Processing Effects
+								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
+								break;
+
+							default:
+								break;
+						}
+						break;
+					default:
+						viewer.processEvent(event);
+						break;
 				}
 			}
 			// -- End of Input and Controls -- \\ 
@@ -578,10 +612,20 @@ int main()
 			// TODO For Post Processing, run glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer) to do 
 			// regular renders to the post-process framebuffer, which should (hopefully) give me a 
 			// 2D render of the scene stored in the ppColor texture file.
+
+			glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer);
+
+			glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			auto ppFramebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			// std::cout << "PP Framebuffer Status : " << ppFramebufferStatus << std::endl; // Keeping this in as evidence that I did in fact do a framebuffer check at some point
+
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
 			
 			// Regular Render Calls:
-
-			//glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer);
 
 			glViewport(0, 0, windowWidth, windowHeight);
 			glEnable(GL_CULL_FACE);
@@ -650,9 +694,56 @@ int main()
 
 			// ----
 
-			// glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			// Post-Processing Steps:
-			// 
+			// --Post-Processing Steps:--
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+			glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, ppColor);
+			glActiveTexture(GL_TEXTURE0 + 1);
+			glBindTexture(GL_TEXTURE_2D, gaussTex	);
+			glActiveTexture(GL_TEXTURE0 + 2);
+			glBindTexture(GL_TEXTURE_2D, simplexTex);
+
+			// render some quad using a shader that takes in image unit 0 as an albedo
+			glhelper::Mesh ppQuad("PostProcessQuad");
+			ppQuad.drawMode(GL_TRIANGLES);
+
+			// define the ppQuad mesh and texture coords
+			// This is done is a very dodgy hack way because for one reason or another GL_TRIANGLE_STRIP with only 4 vertices was acting up
+			std::vector<Eigen::Vector3f> ppQuadVerts{
+				Eigen::Vector3f(-1,-1,0),
+				Eigen::Vector3f(1,1,0),
+				Eigen::Vector3f(-1,1,0),
+
+				Eigen::Vector3f(1,-1,0),
+				Eigen::Vector3f(1,1,0),
+				Eigen::Vector3f(-1,-1,0),
+
+				Eigen::Vector3f(-1,-1,0),
+				Eigen::Vector3f(1,-1,0),
+				Eigen::Vector3f(0,0,0)
+			};
+			ppQuad.vert(ppQuadVerts);
+
+			std::vector<Eigen::Vector2f> ppQuadTexs{
+				Eigen::Vector2f(0,0),
+				Eigen::Vector2f(1,1),
+				Eigen::Vector2f(0,1),
+
+				Eigen::Vector2f(1,0),
+				Eigen::Vector2f(1,1),
+				Eigen::Vector2f(0,0),
+
+				Eigen::Vector2f(0,0),
+				Eigen::Vector2f(1,0),
+				Eigen::Vector2f(0.5,0.5)
+			};
+			ppQuad.tex(ppQuadTexs);
+			// ----
+			Eigen::Matrix4f ppQuadM2W = Eigen::Matrix4f::Identity();
+			ppQuad.modelToWorld(ppQuadM2W);
+			ppQuad.shaderProgram(&postProcessingShader);
+			ppQuad.render();
 
 			// If rendering text, do it here 0 e.g. 
 			// gltBeginDraw();
@@ -702,6 +793,9 @@ int main()
 		glDeleteFramebuffers(1, &ppFramebuffer);
 		glDeleteTextures(1, &ppColor);
 		glDeleteRenderbuffers(1, &ppRenderbuffer);
+		// ----
+		glDeleteTextures(1, &gaussTex);
+		glDeleteTextures(1, &simplexTex);
 
 		// Bullet Cleanup
 		for (int i = 0; i < collisionShapes.size(); ++i) {
