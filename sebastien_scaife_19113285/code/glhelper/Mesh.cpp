@@ -155,5 +155,4 @@ Mesh& Mesh::drawMode(GLenum mode)
 	drawMode_ = mode;
 	return *this;
 }
-
 }

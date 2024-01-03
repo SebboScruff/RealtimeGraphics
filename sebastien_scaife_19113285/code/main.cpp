@@ -15,14 +15,14 @@
 #include "assimp/mesh.h"
 #include "assimp/scene.h"
 #include <opencv2/opencv.hpp>
+#include <fstream>
+#include <iostream>
+#include <bullet/btBulletDynamicsCommon.h>
 #include <SebScaifeCMP7172/NoiseMap.h>
 #include <SebScaifeCMP7172/BulletHelper.h>
 #include <SebScaifeCMP7172/FireParticles.h>
 #define GLT_IMPLEMENTATION
 #include <gltext.h>
-#include <fstream>
-#include <iostream>
-#include <bullet/btBulletDynamicsCommon.h>
 
 
 // Global scope variables here, like Window Size and hardset framerate
@@ -48,12 +48,16 @@ float specularExponent = -8.f;
 const int shadowCubemapSize = 512; // resolution of shadow cubemap sections
 const float shadowMapNear = 0.5f, shadowMapFar = 100.f; // clipping planes for shadow mapping perspective
 const float shadowMapBias = 0.7f;
+
+// returns a rotation matrix about a specific axis [UNUSED]
 Eigen::Matrix4f angleAxisMat4(float angle, const Eigen::Vector3f& axis)
 {
 	Eigen::Matrix4f output = Eigen::Matrix4f::Identity();
 	output.block<3, 3>(0, 0) = Eigen::AngleAxisf(angle, axis).matrix();
 	return output;
 }
+
+// Standard Cubemap rotations for the shadowmapping shader
 const std::array<Eigen::Matrix4f, 6> cubemapRotations{
 			angleAxisMat4(float(M_PI_2), Eigen::Vector3f(0,1,0)),//POSITIVE_X - rotate right 90 degrees
 			angleAxisMat4(float(-M_PI_2), Eigen::Vector3f(0,1,0)),//NEGATIVE_X - rotate left 90 degrees
@@ -101,9 +105,7 @@ void loadMeshStandard(glhelper::Mesh* mesh, const std::string& filename)
 
 	mesh->vert(verts);
 	mesh->norm(norms);
-
 	mesh->elems(elems);
-
 	mesh->tex(uvs);
 }
 
@@ -148,6 +150,33 @@ void loadMeshForNormalMapping(glhelper::Mesh* mesh, const std::string& filename)
 	mesh->elems(elems);
 
 	mesh->tex(uvs);
+}
+
+// Combine multiple identical meshes into a single mesh to render them all in a single draw call
+// [Unfinished and unused]
+void makeModelBatch(glhelper::Mesh* _batchMesh, std::vector<glhelper::Mesh*> _meshesToBatch)
+{
+	std::vector<Eigen::Vector3f> batchVerts;
+	std::vector<Eigen::Vector3f> batchNorms;
+	std::vector<Eigen::Vector2f> batchUVs;
+
+	for (glhelper::Mesh* mesh : _meshesToBatch) {
+		std::vector<Eigen::Vector3f> meshVerts;
+		std::vector<Eigen::Vector3f> meshNorms;
+		std::vector<Eigen::Vector2f> meshUVs;
+
+		// add that mesh's vertices to meshVerts
+		// add that mesh's normals to meshNorms
+		// add that mesh's uvs to meshUVs
+
+		batchVerts.insert(batchVerts.end(), meshVerts.begin(), meshVerts.end());
+		batchNorms.insert(batchNorms.end(), meshNorms.begin(), meshNorms.end());
+		batchUVs.insert(batchUVs.end(), meshUVs.begin(), meshUVs.end());
+	}
+
+	_batchMesh->vert(batchVerts);
+	_batchMesh->norm(batchNorms);
+	_batchMesh->tex(batchUVs);
 }
 
 // Used in profiling, to say how long was taken to render each object in a csv format
@@ -203,13 +232,13 @@ int main()
 
 	// GL Text Initialisation & Set Up
 	gltInit();
-	//GLTtext* text = gltCreateText();
-	//gltSetText(text, "Post-Processing: Off. Press 1 and 2 to Toggle Render Modes.");
+	GLTtext* text = gltCreateText();
+	gltSetText(text, "Post-Processing: Off. Control Render Mode with Number Keys 1-3.");
 
 	glEnable(GL_MULTISAMPLE);
 
-	// Bullet Physics Setup:
-	
+// Bullet Physics Setup: \\
+
 	// Set up Bullet World to allow for in-scene physics
 	// TODO This could probably be extracted into a btHelper.InitialiseWorld function or something if I have time
 	std::unique_ptr<btDefaultCollisionConfiguration> collisionConfig = std::make_unique<btDefaultCollisionConfiguration>();
@@ -222,7 +251,8 @@ int main()
 	world->setGravity(btVector3(0, -1, 0)); // set gravity to some arbitrary downwards vector
 
 	btAlignedObjectArray<btCollisionShape*> collisionShapes; // store all physics objects in this array!
-	// End of Basic Bullet Setup
+
+// End of Basic Bullet Setup \\
 
 	// Everything runtime-related in here:
 	{
@@ -247,13 +277,18 @@ int main()
 
 		// Define all meshes
 		std::vector<glhelper::Renderable*> renderables; // store all renderables in a Vector so it's easier to write out Render Queries en masse
+		//std::vector<glhelper::Mesh*> rocksForBatching;
+
 		glhelper::Mesh lightSphere("light");
 		lightSphere.setCastsShadow(false); // the light visualiser doesnt want to cast a shadow
 
 		// Defining all the meshes in the scene
-		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), physicsLogMesh("fallingLog"), campfireBaseMesh("campfireBase");
+		glhelper::Mesh floorMesh("floor"), swordMesh("sword"), shieldMesh("shield"), logSeatMesh1("seat1"), logSeatMesh2("seat2"), physicsLogMesh("fallingLog"), physicsLogMesh2("fallingLog2"), campfireBaseMesh("campfireBase");
+		
+		//glhelper::Mesh rock1Mesh("rock1"), rock2Mesh("rock2"), rock3Mesh("rock3"), rock4Mesh("rock4"), rockBatch("rockBatch"); // ANYTHING TO DO WITH BATCHED ROCKS HAS BEEN COMMENTED OUT
 		
 		// Additional Property Setup
+		
 		// --Floor--
 		floorMesh.setCastsShadow(false); // The floor doesn't cast any shadows
 
@@ -262,9 +297,10 @@ int main()
 		fireParticles.setCastsShadow(false); // The fire doesn't cast any shadows
 
 		// fill up the renderables list with all the meshes
-		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &physicsLogMesh, &campfireBaseMesh, &fireParticles };
+		renderables = { &lightSphere, &floorMesh, &swordMesh, &shieldMesh, &logSeatMesh1, &logSeatMesh2, &physicsLogMesh, &physicsLogMesh2, &campfireBaseMesh, &fireParticles };
+		//rocksForBatching = { &rock1Mesh, &rock2Mesh, &rock3Mesh, &rock4Mesh };
 
-		// -- Translation Matrix Set-up -- \\
+// -- Translation Matrix Set-up -- \\
 
 		// Light Sphere
 		Eigen::Matrix4f lightSphereM2W = makeTranslationMatrix(lightPosition);
@@ -304,11 +340,18 @@ int main()
 		auto fallingLogScale = makeScaleMatrix(1.f, 2.f, 1.f) * 0.5f;
 		// Falling Log Physics
 		btHelper.AddCylinderShape(collisionShapes, world.get(), Eigen::Vector3f(0, 4.f, 4.f), Eigen::Vector3f(1.f, 2.f, 1.f), 1, 0.5, btVector3(65,50,32));
+		btHelper.AddCylinderShape(collisionShapes, world.get(), Eigen::Vector3f(0, 8.f, 5.f), Eigen::Vector3f(1.f, 2.f, 1.f), 1, 0.5, btVector3(65, 50, 32));
 
-		// -- End of Translation Matrix Set-up -- \\
+
+		// Batch-Rendered Rocks
+		/*Eigen::Matrix4f rockModelToWorld = Eigen::Matrix4f::Identity();
+		rockModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(5.f,0.f,5.f));*/
+
+// -- End of Translation Matrix Set-up -- \\
 
 
-		// -- Model Loading -- \\
+// -- Model Loading -- \\
+
 		// Light Sphere
 		loadMeshStandard(&lightSphere, assetsDirectory + "models/sphere.obj");
 		lightSphere.modelToWorld(lightSphereM2W);
@@ -342,6 +385,10 @@ int main()
 		loadMeshForNormalMapping(&physicsLogMesh, assetsDirectory + "models/logSeat.obj");
 		physicsLogMesh.modelToWorld(fallingLogModelToWorld);
 		physicsLogMesh.shaderProgram(&normalMapShader);
+		//----
+		loadMeshForNormalMapping(&physicsLogMesh2, assetsDirectory + "models/logSeat.obj");
+		physicsLogMesh2.modelToWorld(fallingLogModelToWorld);
+		physicsLogMesh2.shaderProgram(&normalMapShader);
 
 		// Campfire Base
 		loadMeshStandard(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
@@ -351,10 +398,28 @@ int main()
 		fireParticles.modelToWorld(fireModelToWorld);
 		fireParticles.shaderProgram(&fireShader);
 
-		// -- End of Model Loading -- \\
+		// Rocks
+		/*loadMeshStandard(&rock1Mesh, assetsDirectory + "models/rocks/rock1.obj");
+		rock1Mesh.modelToWorld(rockModelToWorld);
+		rockModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(2.f, 0.f, 0.f));
 
-		// -- Shader Uniform Setup -- \\ 
-		// TODO Set remaining shader Uniforms
+		loadMeshStandard(&rock2Mesh, assetsDirectory + "models/rocks/rock2.obj");
+		rock2Mesh.modelToWorld(rockModelToWorld);
+		rockModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(2.f, 0.f, 0.f));
+
+		loadMeshStandard(&rock3Mesh, assetsDirectory + "models/rocks/rock3.obj");
+		rock3Mesh.modelToWorld(rockModelToWorld);
+		rockModelToWorld *= makeTranslationMatrix(Eigen::Vector3f(2.f, 0.f, 0.f));
+
+		loadMeshStandard(&rock3Mesh, assetsDirectory + "models/rocks/rock1.obj");
+		rock3Mesh.modelToWorld(rockModelToWorld);
+
+		makeModelBatch(&rockBatch, rocksForBatching);
+		rockBatch.shaderProgram(&lambertShader);*/
+
+// -- End of Model Loading -- \\
+
+// -- Shader Uniform Setup -- \\ 
 		glProgramUniform4f(defaultBlueShader.get(), defaultBlueShader.uniformLoc("color"), 0.f, 1.f, 1.f, 1.f);  // sets the Fixed Color shader to simply render everything a nice turquoise by default
 		glProgramUniform4f(lightSphereShader.get(), lightSphereShader.uniformLoc("color"), 1.f, 1.f, 1.f, 1.f); // just set the light to be plain white
 
@@ -414,10 +479,9 @@ int main()
 			glProgramUniform3f(watercolourShader.get(), watercolourShader.uniformLoc("lightPosWorld"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // Pass in Light Position so that Cel Shading works
 		}
 
-		// -- End of Shader Uniform Setup -- \\
+// -- End of Shader Uniform Setup -- \\
 
-		// -- Texture Setup -- \\ 
-		// TODO Define and create remaining normal maps, speculars, mipmaps etc for all the models
+// -- Texture Setup -- \\ 
 
 		// Floor Texture Setup
 		cv::Mat floorAlbedoSource = cv::imread(assetsDirectory + "textures/Floor/FloorAlbedo.jpg");
@@ -491,6 +555,14 @@ int main()
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+
+		// Rock Material
+		/*cv::Mat rocksAlbedoSource = cv::imread(assetsDirectory + "textures/Rocks/RockAlbedo.png");
+		cv::cvtColor(rocksAlbedoSource, rocksAlbedoSource, cv::COLOR_BGR2RGB);
+		GLuint rockAlbedo;
+		glGenTextures(1, &rockAlbedo);
+		SetUpTexture(rocksAlbedoSource, rockAlbedo);*/
+
 		// --Shadow Mapping--
 		GLuint shadowCubemapTexture;
 		glGenTextures(1, &shadowCubemapTexture);
@@ -528,9 +600,11 @@ int main()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, windowWidth, windowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// ----
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, windowWidth, windowHeight);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ppColor, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, ppRenderbuffer);
+		
 		// NOTE: glCheckFramebufferStatus is run before render calls to ensure this is all loaded correctly
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -575,7 +649,7 @@ int main()
 
 		glBindTexture(GL_TEXTURE_2D, 0); // unbind at the end
 
-		// -- End of Texture Setup -- \\
+// -- End of Texture Setup -- \\
 
 		// Enable any GL functions here:
 		glEnable(GL_DEPTH_TEST);
@@ -583,7 +657,7 @@ int main()
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS); // enable seamless cubemaps so that the shadow cubemap doesnt have annoying lines in it
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// -- Input and controls -- \\
+// -- Input and controls -- \\
 
 		std::ofstream profilerOut(queryOutDirectory + "profiling.csv");
 
@@ -600,11 +674,9 @@ int main()
 			float animationTimeSeconds = 1e-6f * (float)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
 			world->stepSimulation((desiredFrameTime / 1000.f), 10);
 
-			// TODO This is where any physics objects will have their meshes moved!
-			// ----
-			btCollisionObject* fallingLogObj = world->getCollisionObjectArray()[1];
-			btRigidBody* fallingLogRB = btRigidBody::upcast(fallingLogObj);
+			// Physics Objects have their meshes moved based on their Bullet Rigidbody Transforms
 			physicsLogMesh.modelToWorld(btHelper.getRigidBodyTransform(world.get(), 1) * fallingLogScale);
+			physicsLogMesh2.modelToWorld(btHelper.getRigidBodyTransform(world.get(), 2) * fallingLogScale);
 
 			viewer.update();
 			
@@ -617,7 +689,7 @@ int main()
 						switch (event.key.keysym.sym) {
 							case(SDLK_1):
 								// Change to Render Mode 1 i.e. standard rendering
-								//gltSetText(text, "Post-Processing: Off. Press 1 and 2 to Toggle Render Modes.");
+								gltSetText(text, "Post-Processing: Off. Control Render Mode with Number Keys 1-3.");
 								currentRenderMode = 1;
 
 								// Change back to regular shader programs for in-scene objects: 
@@ -627,6 +699,7 @@ int main()
 								logSeatMesh1.shaderProgram(&normalMapShader);
 								logSeatMesh2.shaderProgram(&normalMapShader);
 								physicsLogMesh.shaderProgram(&normalMapShader);
+								physicsLogMesh2.shaderProgram(&normalMapShader);
 								campfireBaseMesh.shaderProgram(&lambertShader);*/
 
 								// Also change the post-process uniform!
@@ -635,7 +708,7 @@ int main()
 
 							case (SDLK_2):
 								// Change to Render Mode 2 i.e. Watercolour Shader rendering
-								//gltSetText(text, "Post-Processing: On. Press 1 and 2 to Toggle Render Modes.");
+								gltSetText(text, "Post-Processing: Watercolour Shader. Control Render Mode with Number Keys 1 - 3.");
 								currentRenderMode = 2;
 								// Sword, Shield, Log Seats, and Campfire Base change to a Cel Shader for Light Abstraction
 								/*swordMesh.shaderProgram(&watercolourShader);
@@ -644,17 +717,15 @@ int main()
 								logSeatMesh1.shaderProgram(&watercolourShader);
 								logSeatMesh2.shaderProgram(&watercolourShader);
 								physicsLogMesh.shaderProgram(&watercolourShader);
+								physicsLogMesh2.shaderProgram(&watercolourShader);
 								campfireBaseMesh.shaderProgram(&watercolourShader);*/
 
 								// Turn on Post Processing Effects
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
 								break;
 							case (SDLK_3):
+								gltSetText(text, "Post-Processing: Colour Breathing. Control Render Mode with Number Keys 1 - 3.");
 								currentRenderMode = 3; // transition between standard color and inverted color and back
-								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
-								break;
-							case (SDLK_4):
-								currentRenderMode = 4; // Add Depth of Field
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
 								break;
 							default:
@@ -677,7 +748,7 @@ int main()
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("time"), animationTimeSeconds);
 			glProgramUniform1f(postProcessingShader.get(), postProcessingShader.uniformLoc("animTime"), animationTimeSeconds);
 
-			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
+// -- Texture Binding, Rendering, and Draw Calls -- \\ 
 
 			// Shadow Mapping First, then regular renders.
 			glBindFramebuffer(GL_FRAMEBUFFER, shadowCubemapFramebuffer);
@@ -706,8 +777,8 @@ int main()
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			// ----
-			// TODO For Post Processing, run glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer) to do 
-			// regular renders to the post-process framebuffer, which should (hopefully) give me a 
+			// For Post Processing, run glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer) to do 
+			// regular renders to the post-process framebuffer, which should gives me a 
 			// 2D render of the scene stored in the ppColor texture file.
 
 			glBindFramebuffer(GL_FRAMEBUFFER, ppFramebuffer);
@@ -729,9 +800,7 @@ int main()
 
 			lightSphere.renderWithQuery();
 
-			// TODO Remaining texture binds to correct image units, to set up Shader Uniforms in the correct way
-			// Will need to set Normal Maps, Speculars, etc etc to correct image units before rendering each object
-			// This might also be extracted out into a separate function e.g. BindTexsAndRender()
+			// Texture Binding and Rendering:
 
 			if (currentRenderMode == 2) {	// If currently using Watercolour Rendering, set the Cel Shading Reference to Image Unit 4
 				glActiveTexture(GL_TEXTURE0 + 4);
@@ -776,6 +845,7 @@ int main()
 			logSeatMesh1.renderWithQuery();
 			logSeatMesh2.renderWithQuery();
 			physicsLogMesh.renderWithQuery();
+			physicsLogMesh2.renderWithQuery();
 
 			// ----
 
@@ -802,7 +872,19 @@ int main()
 
 			// ----
 
-			// --Post-Processing Steps:--
+			// Rock Rendering
+			/*glActiveTexture(GL_TEXTURE0 + 0);
+			glBindTexture(GL_TEXTURE_2D, rockAlbedo);
+			rockBatch.render();*/
+
+			// Text Rendering 
+			gltBeginDraw();
+			gltColor(1.f, 1.f, 1.f, 1.f);
+			gltDrawText2D(text, 10.f, 10.f, 1.f);
+			gltEndDraw();
+
+// --Post-Processing Steps:-- \\
+
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			glActiveTexture(GL_TEXTURE0 + 0);
@@ -853,13 +935,10 @@ int main()
 			ppQuad.shaderProgram(&postProcessingShader);
 			ppQuad.render();
 
-			// Text Rendering 
-			/*gltBeginDraw();
-			gltColor(1.f, 1.f, 1.f, 1.f);
-			gltDrawText2D(text, 10.f, 10.f, 1.f);
-			gltEndDraw();*/
+			glDisable(GL_CULL_FACE);
+// End of Post Processing Steps \\
 
-			// -- End of Texture Binding, Rendering and Draw Calls -- \\
+// -- End of Texture Binding, Rendering and Draw Calls -- \\
 
 			SDL_GL_SwapWindow(window);
 
@@ -897,7 +976,9 @@ int main()
 		// ----
 		glDeleteTextures(1, &fireColour);
 		glDeleteTextures(1, &fireAlpha);
-		// ---- 
+		// ----
+		//glDeleteTextures(1, &rockAlbedo);
+		// ----
 		glDeleteFramebuffers(1, &ppFramebuffer);
 		glDeleteTextures(1, &ppColor);
 		glDeleteRenderbuffers(1, &ppRenderbuffer);
@@ -912,7 +993,7 @@ int main()
 		}
 	}
 
-	//gltDeleteText(text);
+	gltDeleteText(text);
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
