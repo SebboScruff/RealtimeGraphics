@@ -18,7 +18,19 @@ in vec2 texCoord;
 
 out vec4 colorOut;
 uniform vec3 lightPosWorld;
-	
+
+// Take in a Source Colour and a Pigment Density Value d to return a more/less saturated Modified Color,
+// such that d=1 => modified color = source color.
+// Bousseau et al., 2006. 
+vec4 BousseauColorMod(vec4 _srcColor, float _d)
+{
+	vec4 modifiedColor;
+
+	modifiedColor = _srcColor - (_srcColor - (_srcColor * _srcColor)) * (_d-1);
+
+	return modifiedColor;
+}
+
 void main()
 {
 	vec3 albedo = texture(albedoTexture, texCoord).xyz;

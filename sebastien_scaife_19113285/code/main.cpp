@@ -360,8 +360,8 @@ int main()
 		}
 		// TODO Watercolour Shader Uniform Set-up:
 		{
-			glProgramUniform1i(watercolourShader.get(), postProcessingShader.uniformLoc("albedo"), 0);	// NOTE: Albedo bound to Image Unit 0
-			glProgramUniform1i(watercolourShader.get(), postProcessingShader.uniformLoc("lightingTexture"), 4);	// NOTE: Cel Shading Reference Texture bound to Image Unit 4
+			glProgramUniform1i(watercolourShader.get(), watercolourShader.uniformLoc("albedo"), 0);	// NOTE: Albedo bound to Image Unit 0
+			glProgramUniform1i(watercolourShader.get(), watercolourShader.uniformLoc("lightingTexture"), 4);	// NOTE: Cel Shading Reference Texture bound to Image Unit 4
 			glProgramUniform3f(watercolourShader.get(), watercolourShader.uniformLoc("lightPosWorld"), lightPosition.x(), lightPosition.y(), lightPosition.z()); // Pass in Light Position so that Cel Shading works
 		}
 
@@ -494,16 +494,30 @@ int main()
 		glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 
 		// ----
+		bool needNewNoiseMaps = false; // Switch this to True if you need a different set of noise maps!
+		if (needNewNoiseMaps) {
+			noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 2, 0, 180, true);
+			noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.007f, true);
+			needNewNoiseMaps = false;
+		}
 
 		GLuint gaussTex, simplexTex;
 
-		cv::Mat gaussMap = noiseMapMaster.GenerateGaussianMap(windowWidth, windowHeight, 5, 0, 180, true);
+		cv::Mat gaussMap = cv::imread(assetsDirectory + "textures/wcRefs/noiseMaps/gaussianMap.jpg");
+		cv::cvtColor(gaussMap, gaussMap, cv::COLOR_BGR2GRAY);
 		glGenTextures(1, &gaussTex);
-		SetUpTexture(gaussMap, gaussTex);
+		glBindTexture(GL_TEXTURE_2D,gaussTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, gaussMap.cols, gaussMap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, gaussMap.data);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
-		cv::Mat simplexMap = noiseMapMaster.GenerateSimplexMap(windowWidth, windowHeight, 0.01f, true);
+		cv::Mat simplexMap = cv::imread(assetsDirectory + "textures/wcRefs/noiseMaps/simplexMap.jpg");
+		cv::cvtColor(simplexMap, simplexMap, cv::COLOR_BGR2GRAY);
 		glGenTextures(1, &simplexTex);
-		SetUpTexture(simplexMap, simplexTex);
+		glBindTexture(GL_TEXTURE_2D, simplexTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, simplexMap.cols, simplexMap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, simplexMap.data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, 0); // unbind at the end
 
 		// -- End of Texture Setup -- \\
 
@@ -551,13 +565,13 @@ int main()
 								currentRenderMode = 1;
 
 								// Change back to regular shader programs for in-scene objects: 
-								swordMesh.shaderProgram(&blinnPhongShader);
+								/*swordMesh.shaderProgram(&blinnPhongShader);
 								shieldMesh.shaderProgram(&blinnPhongShader);
 								logSeatMesh1.shaderProgram(&normalMapShader);
 								logSeatMesh1.shaderProgram(&normalMapShader);
 								logSeatMesh2.shaderProgram(&normalMapShader);
 								physicsLogMesh.shaderProgram(&normalMapShader);
-								campfireBaseMesh.shaderProgram(&lambertShader);
+								campfireBaseMesh.shaderProgram(&lambertShader);*/
 
 								// Also change the post-process uniform!
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
@@ -568,18 +582,20 @@ int main()
 								//gltSetText(text, "Post-Processing: On. Press 1 and 2 to Toggle Render Modes.");
 								currentRenderMode = 2;
 								// Sword, Shield, Log Seats, and Campfire Base change to a Cel Shader for Light Abstraction
-								swordMesh.shaderProgram(&watercolourShader);
+								/*swordMesh.shaderProgram(&watercolourShader);
 								shieldMesh.shaderProgram(&watercolourShader);
 								logSeatMesh1.shaderProgram(&watercolourShader);
 								logSeatMesh1.shaderProgram(&watercolourShader);
 								logSeatMesh2.shaderProgram(&watercolourShader);
 								physicsLogMesh.shaderProgram(&watercolourShader);
-								campfireBaseMesh.shaderProgram(&watercolourShader);
+								campfireBaseMesh.shaderProgram(&watercolourShader);*/
 
 								// Turn on Post Processing Effects
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
 								break;
-
+							case (SDLK_3):
+								currentRenderMode = 3; // transition between standard color and inverted color and back
+								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
 							default:
 								break;
 						}
@@ -598,6 +614,7 @@ int main()
 			// Set the time parameter for the fire particles before doing any rendering
 			// if something takes a really long time to render then the particles won't hang (hopefully)
 			glProgramUniform1f(fireShader.get(), fireShader.uniformLoc("time"), animationTimeSeconds);
+			glProgramUniform1f(postProcessingShader.get(), postProcessingShader.uniformLoc("animTime"), animationTimeSeconds);
 
 			// -- Texture Binding, Rendering, and Draw Calls -- \\ 
 
