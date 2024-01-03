@@ -71,8 +71,9 @@ int currentRenderMode = 1;
 NoiseMap noiseMapMaster; // Noisemap Generator for helping with the Watercolor Shader
 BulletHelper btHelper; // Contains a few helper functions relating to Bullet and Physics
 
-// external file -> in-scene mesh function
-void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
+// Basic Model File -> In-Scene Object loader function
+// Only stores verts, normals, and uvs; does not store tangents or bitangents
+void loadMeshStandard(glhelper::Mesh* mesh, const std::string& filename)
 {
 	Assimp::Importer importer;
 	importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
@@ -82,9 +83,12 @@ void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 	std::vector<Eigen::Vector3f> verts(aimesh->mNumVertices);
 	std::vector<Eigen::Vector3f> norms(aimesh->mNumVertices);
 	std::vector<Eigen::Vector2f> uvs(aimesh->mNumVertices);
+
 	std::vector<GLuint> elems(aimesh->mNumFaces * 3);
+
 	memcpy(verts.data(), aimesh->mVertices, aimesh->mNumVertices * sizeof(aiVector3D));
 	memcpy(norms.data(), aimesh->mNormals, aimesh->mNumVertices * sizeof(aiVector3D));
+
 	for (size_t v = 0; v < aimesh->mNumVertices; ++v) {
 		uvs[v][0] = aimesh->mTextureCoords[0][v].x;
 		uvs[v][1] = 1.f - aimesh->mTextureCoords[0][v].y;
@@ -97,7 +101,52 @@ void loadMesh(glhelper::Mesh* mesh, const std::string& filename)
 
 	mesh->vert(verts);
 	mesh->norm(norms);
+
 	mesh->elems(elems);
+
+	mesh->tex(uvs);
+}
+
+// Separate this into a different function because not every model uses normal mapping
+// so I don't want to unnecessarily load thousands and thousands of tangents and bitans if I'm not going to use them!
+void loadMeshForNormalMapping(glhelper::Mesh* mesh, const std::string& filename)
+{
+	Assimp::Importer importer;
+	importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+	const aiScene* aiscene = importer.GetScene();
+	const aiMesh* aimesh = aiscene->mMeshes[0];
+
+	std::vector<Eigen::Vector3f> verts(aimesh->mNumVertices);
+	std::vector<Eigen::Vector3f> norms(aimesh->mNumVertices);
+	std::vector<Eigen::Vector2f> uvs(aimesh->mNumVertices);
+	// Load in Tangents and Bitangents for use in normal mapping
+	std::vector<Eigen::Vector3f> tangents(aimesh->mNumVertices);
+	std::vector<Eigen::Vector3f> bitangents(aimesh->mNumVertices);
+
+	std::vector<GLuint> elems(aimesh->mNumFaces * 3);
+
+	memcpy(verts.data(), aimesh->mVertices, aimesh->mNumVertices * sizeof(aiVector3D));
+	memcpy(norms.data(), aimesh->mNormals, aimesh->mNumVertices * sizeof(aiVector3D));
+	memcpy(tangents.data(), aimesh->mTangents, aimesh->mNumVertices * sizeof(aiVector3D));
+	memcpy(bitangents.data(), aimesh->mBitangents, aimesh->mNumVertices * sizeof(aiVector3D));
+
+	for (size_t v = 0; v < aimesh->mNumVertices; ++v) {
+		uvs[v][0] = aimesh->mTextureCoords[0][v].x;
+		uvs[v][1] = 1.f - aimesh->mTextureCoords[0][v].y;
+	}
+	for (size_t f = 0; f < aimesh->mNumFaces; ++f) {
+		for (size_t i = 0; i < 3; ++i) {
+			elems[f * 3 + i] = aimesh->mFaces[f].mIndices[i];
+		}
+	}
+
+	mesh->vert(verts);
+	mesh->norm(norms);
+	mesh->tangent(tangents);
+	mesh->bitangent(bitangents);
+
+	mesh->elems(elems);
+
 	mesh->tex(uvs);
 }
 
@@ -261,41 +310,41 @@ int main()
 
 		// -- Model Loading -- \\
 		// Light Sphere
-		loadMesh(&lightSphere, assetsDirectory + "models/sphere.obj");
+		loadMeshStandard(&lightSphere, assetsDirectory + "models/sphere.obj");
 		lightSphere.modelToWorld(lightSphereM2W);
 		lightSphere.shaderProgram(&lightSphereShader);
 
 		// Floor
-		loadMesh(&floorMesh, assetsDirectory + "models/fromBlend/floor.obj");
+		loadMeshStandard(&floorMesh, assetsDirectory + "models/fromBlend/floor.obj");
 		floorMesh.modelToWorld(floorModelToWorld);
 		floorMesh.shaderProgram(&shadowMappedShader);
 
 		// Sword
-		loadMesh(&swordMesh, assetsDirectory + "models/sword.obj");
+		loadMeshStandard(&swordMesh, assetsDirectory + "models/sword.obj");
 		swordMesh.modelToWorld(swordModelToWorld);
 		swordMesh.shaderProgram(&blinnPhongShader);
 
 		// Shield
-		loadMesh(&shieldMesh, assetsDirectory + "models/shield.obj");
+		loadMeshStandard(&shieldMesh, assetsDirectory + "models/shield.obj");
 		shieldMesh.modelToWorld(shieldModelToWorld);
 		shieldMesh.shaderProgram(&blinnPhongShader);
 
 		// Seats
-		loadMesh(&logSeatMesh1, assetsDirectory + "models/fromBlend/logSeat1.obj");
+		loadMeshForNormalMapping(&logSeatMesh1, assetsDirectory + "models/fromBlend/logSeat1.obj");
 		logSeatMesh1.modelToWorld(seat1ModelToWorld);
 		logSeatMesh1.shaderProgram(&normalMapShader);
 
-		loadMesh(&logSeatMesh2, assetsDirectory + "models/fromBlend/logSeat2.obj");
+		loadMeshForNormalMapping(&logSeatMesh2, assetsDirectory + "models/fromBlend/logSeat2.obj");
 		logSeatMesh2.modelToWorld(seat2ModelToWorld);
 		logSeatMesh2.shaderProgram(&normalMapShader);
 
 		// Falling Log
-		loadMesh(&physicsLogMesh, assetsDirectory + "models/logSeat.obj");
+		loadMeshForNormalMapping(&physicsLogMesh, assetsDirectory + "models/logSeat.obj");
 		physicsLogMesh.modelToWorld(fallingLogModelToWorld);
 		physicsLogMesh.shaderProgram(&normalMapShader);
 
 		// Campfire Base
-		loadMesh(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
+		loadMeshStandard(&campfireBaseMesh, assetsDirectory + "models/fromBlend/campfireBase.obj");
 		campfireBaseMesh.modelToWorld(campfireModelToWorld);
 		campfireBaseMesh.shaderProgram(&lambertShader);
 
@@ -409,6 +458,13 @@ int main()
 		GLuint logAlbedo;
 		glGenTextures(1, &logAlbedo);
 		SetUpTexture(logAlbedoSource, logAlbedo);
+		// ----
+		cv::Mat logNormalSource = cv::imread(assetsDirectory + "textures/LogSeat/logNormalMap.jpg");
+		cv::cvtColor(logNormalSource, logNormalSource, cv::COLOR_BGR2RGB);
+		GLuint logNormalMap;
+		glGenTextures(1, &logNormalMap);
+		SetUpTexture(logNormalSource, logNormalMap);
+
 
 		// Campfire Base Texture Setup
 		cv::Mat campfireAlbedoSource = cv::imread(assetsDirectory + "textures/Campfire/campfireBaseAlbedo.jpg");
@@ -709,6 +765,8 @@ int main()
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, logAlbedo);
+			glActiveTexture(GL_TEXTURE0 + 2);
+			glBindTexture(GL_TEXTURE_2D, logNormalMap);
 
 			logSeatMesh1.renderWithQuery();
 			logSeatMesh2.renderWithQuery();
