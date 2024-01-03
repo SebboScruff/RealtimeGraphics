@@ -35,4 +35,3 @@ void main()
 	bitangent = normalize(normToWorld * vBitan);
 	TBN = mat3(worldNorm, tangent, bitangent);
 }
-

@@ -5,11 +5,18 @@ in vec2 texCoord;
 
 out vec4 colorOut;
 
-uniform int renderMode;
-uniform float animTime;
+uniform int renderMode;		// Determines which type of post-process to apply
+
+// Watercolor Uniforms
 uniform sampler2D albedo;	// This is the output texture from the post-process renderbuffer i.e. ppColor
 uniform sampler2D gauss;	// FOR WATERCOLOR: Gaussian Noise Map for Pigment Dispersion
 uniform sampler2D simplex;	// FOR WATERCOLOR: Simplex Noise Map for Turbulent Flow
+
+// Animated Color Shift Uniforms
+uniform float animTime;		
+
+// Depth of Field Uniforms
+
 
 // ----
 
@@ -57,11 +64,16 @@ void main()
 			break;
 
 		case 3: 
-			// render mode 3 is will smoothly transition from normal colours to inverted colours and back
+			// render mode 3 will smoothly transition from normal colours to inverted colours and back
 
 			colorOut = (originalColour - 0.5) * cos(animTime) + 0.5;
 			break;
 
+		case 4:
+			// render mode 4 adds Depth of Field
+
+			colorOut = originalColour;
+			break;
 		default:
 			// failsafe in case renderMode somehow has a different value, it'll default back to standard rendering
 			colorOut = originalColour;

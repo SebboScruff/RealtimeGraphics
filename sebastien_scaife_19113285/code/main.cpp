@@ -64,7 +64,7 @@ const std::array<Eigen::Matrix4f, 6> cubemapRotations{
 }; // pre-defined rotation matrices for each face of a cube
 
 // This controls which rendering style is being used:
-// 1 = non-stylised/realistic, 2 = with post-processing
+// 1 = non-stylised/realistic, 2 = Watercolour Shader, 3 = Standard->InvertedColour oscillation
 // Most of the Independently Researched Watercolour Rendering Style is done through post-processing!
 int currentRenderMode = 1;
 
@@ -230,14 +230,14 @@ int main()
 
 		glhelper::ShaderProgram defaultBlueShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // mainly for checking that meshes are loaded correctly, delete this eventually
 		glhelper::ShaderProgram lightSphereShader({ "../shaders/FixedColor.vert", "../shaders/FixedColor.frag" }); // plain white to signify where the light in the scene is
-		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // Flat Lambert Shader, mainly for checking that textures are loaded correctly
-		glhelper::ShaderProgram normalMapShader({ "../shaders/LambertWithNormal.vert", "../shaders/LambertWithNormal.frag" }); // Lambert Shader with Normal Mapping applied, for Log Seats and the like.
-		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects
+		glhelper::ShaderProgram lambertShader({ "../shaders/Lambert.vert", "../shaders/Lambert.frag" }); // Flat Lambert Shader, mainly for checking that textures are loaded correctly. Used on the Campfire base
+		glhelper::ShaderProgram normalMapShader({ "../shaders/NormalMapped.vert", "../shaders/NormalMapped.frag" }); // Wrap-lighting shader with Normal Mapping applied, used on log seats
+		glhelper::ShaderProgram blinnPhongShader({ "../shaders/BlinnPhong.vert", "../shaders/BlinnPhong.frag" }); // Modified, Normalised Blinn-Phong model for metallic objects. Used on Sword & Shield
 		glhelper::ShaderProgram shadowCubemapShader({"../shaders/ShadowMap.vert", "../shaders/ShadowMap.frag"}); // Shadow Cubemap Shader for storing depth values
-		glhelper::ShaderProgram shadowMappedShader({"../shaders/ShadowMappedSurface.vert", "../shaders/ShadowMappedSurface.frag"}); // Shader that uses the shadowcast cubemap to darken areas that should be in shadow
-		glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // This will handle the light abstraction stage (effectively Cel-Shading) for the Watercolour Renderer
-		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles
-		glhelper::ShaderProgram postProcessingShader({ "../shaders/PostProcessing.vert", "../shaders/PostProcessing.frag" }); // Post-Processing Shader which handles the colour abstraction for the Watercolour Renderer
+		glhelper::ShaderProgram shadowMappedShader({"../shaders/ShadowMappedSurface.vert", "../shaders/ShadowMappedSurface.frag"}); // Shader that uses the shadowcast cubemap to darken areas that should be in shadow. Used on the Floor
+		glhelper::ShaderProgram watercolourShader({ "../shaders/Watercolour.vert", "../shaders/Watercolour.frag" }); // This will handle the light abstraction stage (effectively Cel-Shading) for the Watercolour Renderer. TODO Needs some refinement
+		glhelper::ShaderProgram fireShader({ "../shaders/FireParticle.vert", "../shaders/FireParticle.geom", "../shaders/FireParticle.frag" }); // Shader pipeline for managing fire particles, from generating billboards to applying colour and shape
+		glhelper::ShaderProgram postProcessingShader({ "../shaders/PostProcessing.vert", "../shaders/PostProcessing.frag" }); // Post-Processing Shader which can be set up for any number of render modes
 
 		// Create a viewer from the glhelper set - WASD movement and mouse rotation
 		glhelper::FlyViewer viewer(windowWidth, windowHeight);
@@ -652,6 +652,11 @@ int main()
 							case (SDLK_3):
 								currentRenderMode = 3; // transition between standard color and inverted color and back
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
+								break;
+							case (SDLK_4):
+								currentRenderMode = 4; // Add Depth of Field
+								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
+								break;
 							default:
 								break;
 						}
