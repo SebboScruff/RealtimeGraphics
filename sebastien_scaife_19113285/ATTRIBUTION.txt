@@ -1,4 +1,4 @@
-External/ 3rd Party Attributions for this project:
+External/ 3rd Party Attributions for this project (CMP7172):
 
 ----------------------
 
@@ -9,7 +9,16 @@ code/glhelper:
 
 ----------------------
 bin/3rdParty
-	> All 3rd Party libraries used for this project
+	> All 3rd Party libraries used for this project:
+		>> Assimp 5.2.5
+		>> Bullet 3.25
+		>> doxygen
+		>> Eigen 3.4.0
+		>> glew 2.1.0
+		>> glText
+		>> OpenCV 4.8.0
+		>> SDL2 2.28.2
+		>> SDL2 TTF 2.20.2
 
 ----------------------
 bin/Assets
@@ -28,3 +37,5 @@ bin.Assets/textures
 	> Log Seat - Realistic 3D Scan on Turbosquid; https://www.turbosquid.com/3d-models/wooden-log-8k-3d-1952830
 	> Rocks - Werniech on Turbosquid; https://www.turbosquid.com/3d-models/short-flat-rocks-rough-1-3d-model-1980828
 	> Campfire Zelad on Turbosquid; https://www.turbosquid.com/3d-models/3d-campfire-camp-1683828
+
+	> wcRefs/noiseMaps/paperTexture.jpg - https://www.tilingtextures.com/wp-content/uploads/2018/11/0066-1024x1024.jpg

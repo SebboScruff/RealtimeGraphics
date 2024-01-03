@@ -1,0 +1,14 @@
+﻿  Building Custom Rule C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/glhelper/CMakeLists.txt
+  Entity.cpp
+  Exception.cpp
+  FlyViewer.cpp
+  GLBuffer.cpp
+  Matrices.cpp
+  Mesh.cpp
+  Renderable.cpp
+  RotateViewer.cpp
+  ShaderProgram.cpp
+  Texture.cpp
+  Viewer.cpp
+  Generating Code...
+  glhelper.vcxproj -> C:\Users\sebsc\Documents\UniY4\RT-Graphics\Coursework\RealtimeGraphics\sebastien_scaife_19113285\code\build\glhelper\Release\glhelper.lib

@@ -1,0 +1,10 @@
+^C:\USERS\SEBSC\DOCUMENTS\UNIY4\RT-GRAPHICS\COURSEWORK\REALTIMEGRAPHICS\SEBASTIEN_SCAIFE_19113285\CODE\BUILD\CMAKEFILES\71C0DD921605E2D8930E031F8D11F156\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code -BC:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/sebsc/Documents/UniY4/RT-Graphics/Coursework/RealtimeGraphics/sebastien_scaife_19113285/code/build/SebScaifeCourseworkProject.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

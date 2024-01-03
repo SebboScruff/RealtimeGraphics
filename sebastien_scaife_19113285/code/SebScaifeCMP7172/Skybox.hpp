@@ -1,7 +1,7 @@
+// [UNUSED IN PROJECT]
 #pragma once
 
 #include "glhelper/Renderable.hpp"
-
 class Skybox : public glhelper::Renderable
 {
 public:

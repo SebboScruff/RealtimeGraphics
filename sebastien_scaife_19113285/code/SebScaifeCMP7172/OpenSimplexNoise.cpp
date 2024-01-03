@@ -1,6 +1,8 @@
 // THIRD PARTY CODE
-// from https://github.com/deerel/OpenSimplexNoise
-// to create Noise Maps used for Watercolour Shader
+// source from Rickard Lundberg (from https://github.com/deerel/OpenSimplexNoise )
+// to create Noise Maps used in Watercolour Shader Pipeline
+// please check /sebastien_scaife_19113285/ATTRIBUTION.txt for all third-party credits.
+// ----------------------------------------
 
 #include "OpenSimplexNoise.h"
 

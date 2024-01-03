@@ -4,6 +4,7 @@
 #include <cmath>
 #include <Eigen/Dense>
 
+// A Class to contain the Noise Map Generators required for the Watercolour Shader.
 class NoiseMap
 {
 public:

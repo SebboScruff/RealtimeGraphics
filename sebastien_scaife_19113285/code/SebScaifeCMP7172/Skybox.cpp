@@ -1,3 +1,5 @@
+// [UNUSED IN PROJECT]
+
 #include "Skybox.hpp"
 
 struct CubeVertex {

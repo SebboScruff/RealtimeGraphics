@@ -146,9 +146,7 @@ void loadMeshForNormalMapping(glhelper::Mesh* mesh, const std::string& filename)
 	mesh->norm(norms);
 	mesh->tangent(tangents);
 	mesh->bitangent(bitangents);
-
 	mesh->elems(elems);
-
 	mesh->tex(uvs);
 }
 
@@ -471,6 +469,8 @@ int main()
 			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("albedo"), 0); // NOTE: Albedo bound to Image Unit 0
 			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("gauss"), 1); // NOTE: Gaussian Map bound to Image Unit 1
 			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("simplex"), 2); // NOTE: Simplex Map bound to Image Unit 2
+			glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("paper"), 3); // NOTE: Paper Layer bound to Image Unit 3
+
 		}
 		// TODO Watercolour Shader Uniform Set-up:
 		{
@@ -555,7 +555,6 @@ int main()
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-
 		// Rock Material
 		/*cv::Mat rocksAlbedoSource = cv::imread(assetsDirectory + "textures/Rocks/RockAlbedo.png");
 		cv::cvtColor(rocksAlbedoSource, rocksAlbedoSource, cv::COLOR_BGR2RGB);
@@ -631,7 +630,7 @@ int main()
 			needNewNoiseMaps = false;
 		}
 
-		GLuint gaussTex, simplexTex;
+		GLuint gaussTex, simplexTex, paperTex;
 
 		cv::Mat gaussMap = cv::imread(assetsDirectory + "textures/wcRefs/noiseMaps/gaussianMap.jpg");
 		cv::cvtColor(gaussMap, gaussMap, cv::COLOR_BGR2GRAY);
@@ -646,6 +645,11 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, simplexTex);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, simplexMap.cols, simplexMap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, simplexMap.data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+		cv::Mat paperImg = cv::imread(assetsDirectory + "textures/wcRefs/noiseMaps/paperTexture.jpg");
+		cv::cvtColor(paperImg, paperImg, cv::COLOR_BGR2RGB);
+		glGenTextures(1, &paperTex);
+		SetUpTexture(paperImg, paperTex);
 
 		glBindTexture(GL_TEXTURE_2D, 0); // unbind at the end
 
@@ -693,14 +697,14 @@ int main()
 								currentRenderMode = 1;
 
 								// Change back to regular shader programs for in-scene objects: 
-								/*swordMesh.shaderProgram(&blinnPhongShader);
+								swordMesh.shaderProgram(&blinnPhongShader);
 								shieldMesh.shaderProgram(&blinnPhongShader);
 								logSeatMesh1.shaderProgram(&normalMapShader);
 								logSeatMesh1.shaderProgram(&normalMapShader);
 								logSeatMesh2.shaderProgram(&normalMapShader);
 								physicsLogMesh.shaderProgram(&normalMapShader);
 								physicsLogMesh2.shaderProgram(&normalMapShader);
-								campfireBaseMesh.shaderProgram(&lambertShader);*/
+								campfireBaseMesh.shaderProgram(&lambertShader);
 
 								// Also change the post-process uniform!
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
@@ -711,14 +715,14 @@ int main()
 								gltSetText(text, "Post-Processing: Watercolour Shader. Control Render Mode with Number Keys 1 - 3.");
 								currentRenderMode = 2;
 								// Sword, Shield, Log Seats, and Campfire Base change to a Cel Shader for Light Abstraction
-								/*swordMesh.shaderProgram(&watercolourShader);
+								swordMesh.shaderProgram(&watercolourShader);
 								shieldMesh.shaderProgram(&watercolourShader);
 								logSeatMesh1.shaderProgram(&watercolourShader);
 								logSeatMesh1.shaderProgram(&watercolourShader);
 								logSeatMesh2.shaderProgram(&watercolourShader);
 								physicsLogMesh.shaderProgram(&watercolourShader);
 								physicsLogMesh2.shaderProgram(&watercolourShader);
-								campfireBaseMesh.shaderProgram(&watercolourShader);*/
+								campfireBaseMesh.shaderProgram(&watercolourShader);
 
 								// Turn on Post Processing Effects
 								glProgramUniform1i(postProcessingShader.get(), postProcessingShader.uniformLoc("renderMode"), currentRenderMode);
@@ -893,6 +897,8 @@ int main()
 			glBindTexture(GL_TEXTURE_2D, gaussTex);
 			glActiveTexture(GL_TEXTURE0 + 2);
 			glBindTexture(GL_TEXTURE_2D, simplexTex);
+			glActiveTexture(GL_TEXTURE0 + 3);
+			glBindTexture(GL_TEXTURE_2D, paperTex);
 
 			// render some quad using a shader that takes in image unit 0 as an albedo
 			glhelper::Mesh ppQuad("PostProcessQuad");
@@ -985,6 +991,7 @@ int main()
 		// ----
 		glDeleteTextures(1, &gaussTex);
 		glDeleteTextures(1, &simplexTex);
+		glDeleteTextures(1, &paperTex);
 		glDeleteTextures(1, &celRefTex);
 
 		// Bullet Cleanup

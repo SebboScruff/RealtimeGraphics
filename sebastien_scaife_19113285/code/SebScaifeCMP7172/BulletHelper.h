@@ -4,6 +4,8 @@
 #include "bullet/btBulletCollisionCommon.h"
 #include "bullet/btBulletDynamicsCommon.h"
 
+// Class to contain a few helpful functions to streamline the use of Bullet in the application.
+
 class BulletHelper
 {
 public:

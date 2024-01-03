@@ -2,6 +2,8 @@
 #include "glhelper/Mesh.hpp"
 #include "glhelper/ShaderProgram.hpp"
 
+// Class to contain all the particle placement maths for the fire particle system.
+
 class FireParticles : public glhelper::Mesh {
 public:
 	FireParticles(std::string name, const Eigen::Matrix4f& modelToWorld = Eigen::Matrix4f::Identity());

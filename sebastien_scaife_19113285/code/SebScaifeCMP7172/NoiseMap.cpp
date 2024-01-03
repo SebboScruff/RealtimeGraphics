@@ -5,7 +5,7 @@
 NoiseMap::NoiseMap() {}
 NoiseMap::~NoiseMap() {}
 
-// Implementation of a Gaussian Noise Generator, broadly taken from https://pythonexamples.org/python-opencv-add-noise-to-image/ 
+// Implementation of an OpenCV Gaussian Noise Generator, broadly inspired from https://pythonexamples.org/python-opencv-add-noise-to-image/ 
 // and translated from a Python implementation to a C++ implementation.
 // This is to be used as part of the Watercolor shader pipeline, to simulate Pigment Dispersion in the first Color Abstraction pass
 cv::Mat NoiseMap::GenerateGaussianMap(int _width, int _height, int _cellSize, int _mean = 0, int _stanDev = 180, bool _outputFile)

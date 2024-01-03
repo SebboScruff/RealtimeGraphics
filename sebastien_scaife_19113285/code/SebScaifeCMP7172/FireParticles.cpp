@@ -49,7 +49,6 @@ Eigen::Vector4f FireParticles::SolveForFlameCubic()
 	Eigen::Vector3f y(1.0, flameTopRadius, flameBulgeRadius);
 
 	// Using pseudo-inverse here, as this isn't a square matrix.
-	// This is generally a good idea anyway, as it's often more stable than .inverse()
 	Eigen::Vector4f solution = (X.transpose() * X).completeOrthogonalDecomposition().pseudoInverse() * X.transpose() * y;
 	return solution;
 }
