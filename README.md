@@ -11,3 +11,5 @@ This repository does not currently contain any of the necessary 3rd party librar
 - openCV 4.8.0
 - SDL2 2.28.2
 - SDL2 TTF 2.20.2
+
+Some Example Renders can be found in sebastien_scaife_19113285/Renders 
